@@ -1,0 +1,73 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [ main, signpath-readiness ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build self-contained core
+        shell: pwsh
+        run: |
+          dotnet publish .\src\WinPebble.PDFToImage\WinPebble.PDFToImage.csproj `
+            -c Release `
+            -r win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:EnableCompressionInSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:PublishTrimmed=false `
+            -p:DebugType=None `
+            -p:DebugSymbols=false `
+            -o .\artifacts\core
+
+      - name: Build native Explorer command DLL
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force .\artifacts | Out-Null
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vsPath) { throw "MSVC x64 build tools not found." }
+
+          $vcvars = Join-Path $vsPath "VC\Auxiliary\Build\vcvars64.bat"
+          $cmd = @"
+          @echo off
+          call "$vcvars" >nul
+          if errorlevel 1 exit /b %errorlevel%
+          cl.exe /nologo /std:c++17 /EHsc /O2 /MT /LD /DUNICODE /D_UNICODE /Fo:"artifacts\ExplorerCommand.obj" "shell\ExplorerCommand.cpp" /Fe:"artifacts\WinPebble.PDFToImage.Shell.dll" /link /NOLOGO /DEF:"shell\ExplorerCommand.def" shell32.lib shlwapi.lib ole32.lib
+          exit /b %errorlevel%
+          "@
+          Set-Content .\artifacts\build-shell.cmd $cmd -Encoding ASCII
+          & cmd.exe /d /c ".\artifacts\build-shell.cmd"
+          if ($LASTEXITCODE -ne 0) { throw "Native shell DLL build failed." }
+
+      - name: Collect unsigned build artifact
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force .\artifacts\unsigned | Out-Null
+          Copy-Item .\artifacts\core\WinPebble.PDFToImage.exe .\artifacts\unsigned\
+          Copy-Item .\artifacts\WinPebble.PDFToImage.Shell.dll .\artifacts\unsigned\
+
+      - name: Upload unsigned artifact
+        id: upload-unsigned-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: winpebble-pdf-to-image-unsigned
+          path: artifacts/unsigned/
+          if-no-files-found: error

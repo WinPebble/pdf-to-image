@@ -1,0 +1,127 @@
+using Windows.Data.Pdf;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
+
+namespace WinPebble.PDFToImage.Conversion;
+
+internal sealed class PdfConverter
+{
+    private const double OutputDpi = 300.0;
+    private const double WindowsDipDpi = 96.0;
+
+    private readonly IProgressReporter _progress;
+
+    public PdfConverter(IProgressReporter progress)
+    {
+        _progress = progress;
+    }
+
+    public async Task ConvertAsync(string inputPath, OutputFormat format)
+    {
+        string pdfPath = ValidateInputPath(inputPath);
+
+        StorageFile inputFile = await StorageFile.GetFileFromPathAsync(pdfPath);
+        PdfDocument document = await PdfDocument.LoadFromFileAsync(inputFile);
+
+        int pageCount = checked((int)document.PageCount);
+
+        if (pageCount < 1)
+        {
+            throw new InvalidDataException("The PDF contains no pages.");
+        }
+
+        _progress.FileStarted(pdfPath, pageCount, format);
+
+        using OutputPlan plan = OutputPlan.Create(pdfPath, pageCount, format);
+
+        for (int index = 0; index < pageCount; index++)
+        {
+            using PdfPage page = document.GetPage((uint)index);
+
+            (uint width, uint height) = GetOutputPixelSize(page);
+
+            using var renderStream = new InMemoryRandomAccessStream();
+
+            var white = new Windows.UI.Color
+            {
+                A = 255,
+                R = 255,
+                G = 255,
+                B = 255
+            };
+
+            var renderOptions = new PdfPageRenderOptions
+            {
+                DestinationWidth = width,
+                DestinationHeight = height,
+                BackgroundColor = white,
+
+                // Always render to a lossless in-memory PNG first.
+                // The final encoder controls PNG/JPG metadata and JPEG quality.
+                BitmapEncoderId = BitmapEncoder.PngEncoderId
+            };
+
+            await page.RenderToStreamAsync(renderStream, renderOptions);
+
+            string workingPath = plan.WorkingPaths[index];
+
+            await ImageEncoder.EncodeRenderedPngAsync(
+                renderStream,
+                workingPath,
+                format
+            );
+
+            _progress.PageCompleted(
+                index + 1,
+                pageCount,
+                width,
+                height,
+                plan.FinalPaths[index]
+            );
+        }
+
+        // For multi-page PDFs this is the only point where the final output folder appears.
+        // If any page fails before here, Dispose() removes the hidden staging directory.
+        plan.Commit();
+
+        _progress.FileCompleted(pdfPath);
+    }
+
+    private static string ValidateInputPath(string inputPath)
+    {
+        string fullPath = Path.GetFullPath(inputPath);
+
+        if (!File.Exists(fullPath))
+        {
+            throw new FileNotFoundException("PDF file not found.", fullPath);
+        }
+
+        if (!string.Equals(
+                Path.GetExtension(fullPath),
+                ".pdf",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidDataException("Input file must have the .pdf extension.");
+        }
+
+        return fullPath;
+    }
+
+    private static (uint Width, uint Height) GetOutputPixelSize(PdfPage page)
+    {
+        double scale = OutputDpi / WindowsDipDpi;
+
+        uint width = checked((uint)Math.Max(
+            1,
+            Math.Round(page.Size.Width * scale)
+        ));
+
+        uint height = checked((uint)Math.Max(
+            1,
+            Math.Round(page.Size.Height * scale)
+        ));
+
+        return (width, height);
+    }
+}
