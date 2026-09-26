@@ -2,7 +2,7 @@
 
 A lightweight Windows utility that converts PDF pages to PNG or JPG directly from File Explorer.
 
-> **Status:** pre-release. The Windows-native conversion core and Windows 11 Explorer integration have passed local development testing. Production code signing and clean-machine validation are still in progress.
+> **Status:** pre-release. The Windows-native conversion core, Windows 11 Explorer integration, and NSIS install/uninstall workflow have passed local development testing. Production code signing and clean-machine validation are still in progress.
 
 ## What it does
 
@@ -51,14 +51,28 @@ Windows.Data.Pdf
 PNG / JPG
 ```
 
+## Release-form installer
+
+WinPebble PDF to Image uses **NSIS** for the Setup EXE release form.
+
+The project currently targets:
+
+```text
+Release label : 0.9.0-beta
+File version  : 0.9.0.0
+Architecture  : x64
+```
+
+The NSIS installer uses the zlib compressor. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Build requirements
 
 Development currently targets Windows x64 and uses:
 
 - .NET 8 SDK
 - Visual Studio 2022 Build Tools with Desktop development with C++
-- Windows 11 SDK (`MakeAppx` and `SignTool`)
-- Inno Setup 7 for the development installer
+- Windows SDK (`MakeAppx`, `SignTool`, `rc.exe`)
+- NSIS
 
 See [BUILDING.md](BUILDING.md).
 

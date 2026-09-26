@@ -2,35 +2,47 @@
 
 This document tracks the work required before WinPebble applies for free Open Source code signing from SignPath Foundation.
 
-## Already addressed in this repository
+## Already addressed
 
 - [x] Public GitHub repository
 - [x] MIT License
 - [x] Full WinPebble-owned core source
 - [x] Native Explorer integration source
-- [x] Version-controlled build scripts
-- [x] GitHub Actions unsigned build on a GitHub-hosted Windows runner
+- [x] Version-controlled build and packaging scripts
+- [x] GitHub-hosted Windows CI build
 - [x] Privacy statement
 - [x] Code signing policy
 - [x] Install/uninstall implementation documented
 - [x] No telemetry/background service in the utility
 - [x] Public release must not require disabling Windows security
+- [x] Release-form installer technology selected: NSIS
+- [x] NSIS installer explicitly uses zlib compression
+- [x] Local NSIS install/use/uninstall gate passed end-to-end
+- [x] Product/version metadata aligned to `0.9.0-beta` / `0.9.0.0`
 
-## Still required before application
+## Current release-form gate
+
+The intended signed artifact is a Windows Setup EXE.
+
+GitHub Actions must therefore build and upload:
+
+```text
+WinPebble-PDF-to-Image-Setup-Beta-Dev.exe
+```
+
+from repository source on a GitHub-hosted Windows runner before the project proceeds to the first GitHub pre-release.
+
+The development Setup EXE is not production-signed and still uses a development certificate internally for sparse-package testing. That certificate model is not the public signing model.
+
+## Still required before SignPath Foundation application
 
 - [ ] Confirm all maintainers use GitHub 2FA
 - [ ] Finalize named SignPath roles: authors/committers, reviewers, approvers
-- [ ] Confirm the final installer technology is compatible with SignPath Foundation's OSI-license conditions
-- [ ] Produce the release artifact in the same form that will ultimately be signed
-- [ ] Publish a pre-release/release in that form
+- [ ] GitHub Actions builds the Setup EXE successfully from `main`
+- [ ] Publish `v0.9.0-beta` as a GitHub pre-release in the same Setup EXE form intended for signing
 - [ ] Establish enough public project history/reputation for SignPath Foundation review
 - [ ] Apply to SignPath Foundation
 - [ ] After approval, install the SignPath GitHub App and configure GitHub as a Trusted Build System
 - [ ] Add SignPath signing-request workflow with manual approval
-- [ ] Enforce product/version metadata consistently on signed binaries
-
-## Installer licensing note
-
-The current development installer uses Inno Setup. It is convenient and technically successful, but SignPath Foundation requires OSI-approved Open Source licensing for project components. Before using Inno Setup in the artifact submitted for free Foundation signing, WinPebble should obtain clarification from SignPath or replace the installer layer with an installer technology whose licensing clearly satisfies that requirement.
-
-The current GitHub Actions workflow therefore builds and uploads the unsigned WinPebble-owned EXE and shell DLL only. It does not represent the final SignPath signing workflow.
+- [ ] Replace development signing/trust with SignPath production signing
+- [ ] Validate signed installer with Smart App Control / Microsoft Defender enabled
