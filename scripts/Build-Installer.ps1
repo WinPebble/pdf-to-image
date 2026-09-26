@@ -116,6 +116,14 @@ foreach ($file in @($exe, $dll, $setup)) {
     Write-Host "  ProductVersion : $($vi.ProductVersion)"
     Write-Host "  FileVersion    : $($vi.FileVersion)"
 
+    if ($vi.ProductName -ne "WinPebble PDF to Image") {
+        throw "Unexpected ProductName for $file. Got '$($vi.ProductName)'."
+    }
+
+    if ($vi.ProductVersion -ne "0.9.0-beta") {
+        throw "Unexpected ProductVersion for $file. Expected 0.9.0-beta, got '$($vi.ProductVersion)'."
+    }
+
     if ($vi.FileVersion -ne $expectedFileVersion) {
         throw "Unexpected FileVersion for $file. Expected $expectedFileVersion."
     }
