@@ -1,7 +1,5 @@
 # SignPath Foundation application preparation
 
-This document collects the currently verified project information for the SignPath Foundation application.
-
 ## Project
 
 - **Project name:** WinPebble PDF to Image
@@ -10,7 +8,7 @@ This document collects the currently verified project information for the SignPa
 - **Product page:** https://winpebble.com/tools/pdf-to-image/
 - **License:** MIT License
 - **Platform:** Windows x64
-- **Current public release:** https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta
+- **Current public release:** https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta.1
 
 ## Project description
 
@@ -20,46 +18,50 @@ WinPebble PDF to Image is a small Windows utility that adds `Convert PDF to PNG`
 
 Windows Setup EXE produced by GitHub Actions from version-controlled source and build scripts.
 
-Current unsigned release-form artifact:
+Current unsigned artifact:
 
 ```text
-WinPebble-PDF-to-Image-Setup-0.9.0-beta-unsigned.exe
+WinPebble-PDF-to-Image-Setup-0.9.0-beta.1-unsigned.exe
 ```
 
 SHA-256:
 
 ```text
-a4591bfc9c844de580f81f8acfca9ffe2972649a91f934e76f079badd01e77e1
+f0c13d6500dd1e8bacc0eedda56cd2663f2d6756b717ede6b63e96c67dd73872
+```
+
+Source/build commit:
+
+```text
+6ad99e83e4b13469a47a06883181bbecb3491587
 ```
 
 ## Build provenance
 
 - GitHub-hosted Windows runner
-- Version-controlled GitHub Actions workflow
-- .NET 8 core build
-- native x64 Explorer shell extension build
-- NSIS Setup EXE packaging
-- CI verification of product name/version/file version
+- version-controlled GitHub Actions workflow
+- .NET 8 conversion core
+- native x64 Explorer shell extension
+- NSIS Setup EXE
+- CI metadata verification
 - CI-generated SHA-256
-- release asset derived from the successful `main` workflow artifact
+- release asset derived from successful `main` workflow artifact
+
+## System changes and uninstall
+
+The unsigned development beta uses a local `WinPebble Development` certificate in `Local Computer > Trusted People` to register the development sparse package used for modern Windows 11 File Explorer integration.
+
+The installer explicitly discloses this change and requires user confirmation. The uninstaller removes the exact development certificate. Production releases are intended not to require this development/self-signed certificate.
 
 ## Code signing policy
 
 https://github.com/WinPebble/pdf-to-image/blob/main/CODE_SIGNING_POLICY.md
 
-Required statement:
-
-> Free code signing provided by SignPath.io, certificate by SignPath Foundation.
-
 ## Privacy policy
 
 https://github.com/WinPebble/pdf-to-image/blob/main/PRIVACY.md
 
-The application processes PDFs locally and does not transfer PDF contents or generated images to networked systems.
-
 ## Team roles
-
-Current single-maintainer structure:
 
 - **Authors / committers:** @AccidentalScholar95
 - **Reviewers:** @AccidentalScholar95
@@ -67,17 +69,5 @@ Current single-maintainer structure:
 
 ## MFA confirmation still required
 
-Before submitting the application, explicitly confirm:
-
-- GitHub MFA/2FA is enabled for the current maintainer.
-- SignPath MFA will be enabled/used for the applicant account.
-
-Do not mark these as completed without actual confirmation.
-
-## Signing objective
-
-Use SignPath Foundation Open Source code signing to establish verifiable provenance between the public source repository, the automated GitHub build, and official WinPebble Windows release binaries, while allowing users to keep Smart App Control, Microsoft Defender, and other Windows security protections enabled.
-
-## Current limitation
-
-WinPebble PDF to Image is a new project. SignPath Foundation may require additional public project history or reputation before accepting an executable end-user application.
+- GitHub MFA/2FA: confirm before submission.
+- SignPath MFA: enable/use for the applicant account.

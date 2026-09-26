@@ -2,7 +2,7 @@
 
 A lightweight Windows utility that converts PDF pages to PNG or JPG directly from File Explorer.
 
-> **Status:** public pre-release `v0.9.0-beta` is available. The Windows-native conversion core, Windows 11 Explorer integration, NSIS install/uninstall workflow, and GitHub-hosted release-form build have been validated. Production code signing is still pending SignPath Foundation approval.
+> **Status:** public pre-release `v0.9.0-beta.1` is available. The Windows-native conversion core, Windows 11 Explorer integration, NSIS install/uninstall workflow, explicit development-certificate disclosure, and GitHub-hosted release-form build have been validated. Production code signing is still pending SignPath Foundation approval.
 
 ## What it does
 
@@ -15,68 +15,19 @@ A lightweight Windows utility that converts PDF pages to PNG or JPG directly fro
 - Does not use Poppler or another third-party PDF rendering runtime.
 - Does not run a background service or collect telemetry.
 
-## Output rules
-
-For a one-page PDF, the image is created beside the PDF:
-
-```text
-Document.pdf
-Document.png
-```
-
-For a multi-page PDF, a dedicated folder is created:
-
-```text
-Document.pdf
-Document - PNG/
-  Document_page_001.png
-  Document_page_002.png
-```
-
-Existing outputs are never overwritten; `(2)`, `(3)`, and so on are used instead. Multi-page output is staged atomically so incomplete final folders are not exposed when conversion fails.
-
-## Architecture
-
-```text
-Windows File Explorer
-        ↓
-WinPebble.PDFToImage.Shell.dll
-(native x64 IExplorerCommand)
-        ↓
-WinPebble.PDFToImage.exe
-(self-contained .NET 8 Windows executable)
-        ↓
-Windows.Data.Pdf
-        ↓
-PNG / JPG
-```
-
 ## Release-form installer
 
 WinPebble PDF to Image uses **NSIS** for the Setup EXE release form.
 
-The project currently targets:
+Current public development pre-release:
 
 ```text
-Release label : 0.9.0-beta
-File version  : 0.9.0.0
+Release label : 0.9.0-beta.1
+File version  : 0.9.0.1
 Architecture  : x64
 ```
 
-The NSIS installer uses the zlib compressor. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-The public beta release is available from the repository's [Releases](https://github.com/WinPebble/pdf-to-image/releases) page.
-
-## Build requirements
-
-Development currently targets Windows x64 and uses:
-
-- .NET 8 SDK
-- Visual Studio 2022 Build Tools with Desktop development with C++
-- Windows SDK (`MakeAppx`, `SignTool`, `rc.exe`)
-- NSIS
-
-See [BUILDING.md](BUILDING.md).
+The unsigned development preview explicitly warns before adding the local `WinPebble Development` certificate to `Local Computer > Trusted People` for sparse-package registration. The uninstaller removes that exact development certificate. Production releases will not require this development/self-signed certificate.
 
 ## Privacy
 
@@ -101,4 +52,4 @@ WinPebble PDF to Image is licensed under the [MIT License](LICENSE).
 - Website: https://winpebble.com
 - Product page: https://winpebble.com/tools/pdf-to-image/
 - Repository: https://github.com/WinPebble/pdf-to-image
-- Beta release: https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta
+- Current beta release: https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta.1
