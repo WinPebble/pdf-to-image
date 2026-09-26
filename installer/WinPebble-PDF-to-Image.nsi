@@ -13,8 +13,8 @@ RequestExecutionLevel admin
 !endif
 
 !define APP_NAME "WinPebble PDF to Image"
-!define APP_VERSION "0.9.0-beta"
-!define APP_VERSION_NUM "0.9.0.0"
+!define APP_VERSION "0.9.0-beta.1"
+!define APP_VERSION_NUM "0.9.0.1"
 !define APP_PUBLISHER "WinPebble"
 !define APP_URL "https://winpebble.com"
 !define APP_DIR "$PROGRAMFILES64\WinPebble\PDF to Image"
@@ -22,7 +22,7 @@ RequestExecutionLevel admin
 
 Name "${APP_NAME} ${APP_VERSION}"
 Caption "${APP_NAME} ${APP_VERSION}"
-OutFile "${OutputDir}\WinPebble-PDF-to-Image-Setup-Beta-Dev.exe"
+OutFile "${OutputDir}\WinPebble-PDF-to-Image-Setup-Beta1-Dev.exe"
 InstallDir "${APP_DIR}"
 InstallDirRegKey HKLM "${UNINSTALL_KEY}" "InstallLocation"
 Icon "${StageDir}\WinPebble-Setup-Dev.ico"
@@ -44,6 +44,19 @@ VIAddVersionKey /LANG=1033 "CompanyName" "${APP_PUBLISHER}"
 VIAddVersionKey /LANG=1033 "FileDescription" "WinPebble PDF to Image installer"
 VIAddVersionKey /LANG=1033 "FileVersion" "${APP_VERSION_NUM}"
 VIAddVersionKey /LANG=1033 "LegalCopyright" "Copyright (c) 2026 WinPebble"
+
+; Explicit development-certificate disclosure required before this unsigned
+; pre-release modifies the LocalMachine TrustedPeople certificate store.
+Function .onInit
+  MessageBox MB_ICONEXCLAMATION|MB_YESNO|MB_DEFBUTTON2 \
+    "WinPebble PDF to Image ${APP_VERSION} is an unsigned development preview.$\r$\n$\r$\nTo enable Windows 11 File Explorer integration, this build installs a local 'WinPebble Development' certificate into:$\r$\n$\r$\nLocal Computer > Trusted People$\r$\n$\r$\nThe certificate is used only for this development sparse-package registration and is removed by the WinPebble uninstaller.$\r$\n$\r$\nProduction releases will not require this development certificate.$\r$\n$\r$\nContinue with installation?" \
+    IDYES continue_install IDNO cancel_install
+
+cancel_install:
+  Abort
+
+continue_install:
+FunctionEnd
 
 Page directory
 Page instfiles
@@ -67,8 +80,6 @@ Section "Install"
   SetOutPath "$INSTDIR\Assets"
   File /r "${StageDir}\Assets\*.*"
 
-  ; Development only: register the sparse identity package and trust the exact
-  ; local development certificate. Public release will use production signing.
   DetailPrint "Registering WinPebble PDF to Image with Windows Explorer..."
   ExecWait '"$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "$INSTDIR\Register-Installed-Package.ps1"' $0
   ${If} $0 != 0
@@ -108,9 +119,6 @@ Section "Uninstall"
   Delete "$INSTDIR\WinPebble-Setup-Dev.ico"
 
   RMDir /r "$INSTDIR\Assets"
-
-  ; NSIS runs uninstall logic from a temporary copy, so the original
-  ; uninstaller in the install directory can be deleted explicitly.
   Delete "$INSTDIR\Uninstall.exe"
 
   RMDir "$INSTDIR"

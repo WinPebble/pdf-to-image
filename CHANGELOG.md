@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0-beta.1 — development certificate disclosure
+
+- Added an explicit installer warning before the unsigned development preview adds the local `WinPebble Development` certificate to `Local Computer > Trusted People`.
+- Requires explicit user confirmation before continuing installation.
+- Documents that the development certificate is removed during uninstall.
+- Clarifies that production releases will not require the development/self-signed certificate.
+- Keeps the Windows-native renderer, Explorer commands, install/uninstall behavior, output rules, and privacy behavior unchanged.
+
 ## 0.9.0-beta — pre-release preparation
 
 - Replaced Poppler with the Windows-native `Windows.Data.Pdf` renderer.

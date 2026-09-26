@@ -35,10 +35,9 @@ All people assigned to SignPath roles must use multi-factor authentication for b
 
 The intended signed public artifact is the Windows Setup EXE produced by the repository's GitHub Actions release-form workflow.
 
-The first public unsigned release in this form is:
+Unsigned development previews may use a local development certificate to register the sparse Windows package required for the modern File Explorer integration. When such a preview does this, the installer must explicitly disclose the certificate-store change before installation and the uninstaller must remove that exact development certificate.
 
-- `v0.9.0-beta`
-- https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta
+Production releases must not require a development/self-signed certificate.
 
 ## Privacy
 
@@ -48,6 +47,6 @@ This program will not transfer any information to other networked systems unless
 
 ## Security and user trust
 
-Official releases must not require users to disable Smart App Control, Microsoft Defender, or other Windows security features.
+Official production releases must not require users to disable Smart App Control, Microsoft Defender, or other Windows security features.
 
-Development-only self-signed certificates are never a requirement for public releases.
+Development-only self-signed certificates are never a requirement for production releases.
