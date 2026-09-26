@@ -2,7 +2,7 @@
 
 A lightweight Windows utility that converts PDF pages to PNG or JPG directly from File Explorer.
 
-> **Status:** pre-release. The Windows-native conversion core, Windows 11 Explorer integration, and NSIS install/uninstall workflow have passed local development testing. Production code signing and clean-machine validation are still in progress.
+> **Status:** public pre-release `v0.9.0-beta` is available. The Windows-native conversion core, Windows 11 Explorer integration, NSIS install/uninstall workflow, and GitHub-hosted release-form build have been validated. Production code signing is still pending SignPath Foundation approval.
 
 ## What it does
 
@@ -65,6 +65,8 @@ Architecture  : x64
 
 The NSIS installer uses the zlib compressor. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
+The public beta release is available from the repository's [Releases](https://github.com/WinPebble/pdf-to-image/releases) page.
+
 ## Build requirements
 
 Development currently targets Windows x64 and uses:
@@ -84,7 +86,9 @@ See [PRIVACY.md](PRIVACY.md).
 
 ## Code signing policy
 
-WinPebble is preparing this project for free Open Source code signing through SignPath Foundation.
+**Free code signing provided by SignPath.io, certificate by SignPath Foundation.**
+
+SignPath Foundation approval is pending. Current public beta binaries are unsigned.
 
 See [CODE_SIGNING_POLICY.md](CODE_SIGNING_POLICY.md) and [SIGNPATH_READINESS.md](SIGNPATH_READINESS.md).
 
@@ -97,3 +101,4 @@ WinPebble PDF to Image is licensed under the [MIT License](LICENSE).
 - Website: https://winpebble.com
 - Product page: https://winpebble.com/tools/pdf-to-image/
 - Repository: https://github.com/WinPebble/pdf-to-image
+- Beta release: https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta
