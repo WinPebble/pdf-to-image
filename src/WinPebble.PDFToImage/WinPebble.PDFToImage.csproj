@@ -7,8 +7,14 @@
 
     <AssemblyName>WinPebble.PDFToImage</AssemblyName>
     <RootNamespace>WinPebble.PDFToImage</RootNamespace>
-    <Version>0.2.2</Version>
-    <InformationalVersion>0.2.2-standalone-gate-retry</InformationalVersion>
+    <Product>WinPebble PDF to Image</Product>
+    <Company>WinPebble</Company>
+    <Authors>WinPebble</Authors>
+    <AssemblyVersion>0.9.0.0</AssemblyVersion>
+    <FileVersion>0.9.0.0</FileVersion>
+    <Version>0.9.0-beta</Version>
+    <InformationalVersion>0.9.0-beta</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
