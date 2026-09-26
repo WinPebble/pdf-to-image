@@ -12,6 +12,37 @@ Write-Host "WinPebble PDF to Image - NSIS Installer Dev v1"
 Write-Host "Version: 0.9.0-beta"
 Write-Host ""
 
+# Repository/build-chain preflight. Fail early with an exact missing path instead
+# of reaching a nested build step and failing later.
+$requiredBuildFiles = @(
+    "Check-Installer-Prerequisites.ps1",
+    "Check-Explorer-Prerequisites.ps1",
+    "Build-Explorer.ps1",
+    "Build-Standalone.ps1",
+    "src\WinPebble.PDFToImage\WinPebble.PDFToImage.csproj",
+    "shell\ExplorerCommand.cpp",
+    "shell\ExplorerCommand.def",
+    "shell\WinPebble.PDFToImage.Shell.rc",
+    "package\AppxManifest.xml",
+    "package\Assets\Square44x44Logo.png",
+    "package\Assets\Square150x150Logo.png",
+    "package\Assets\StoreLogo.png",
+    "installer\WinPebble-PDF-to-Image.nsi",
+    "installer\Register-Installed-Package.ps1",
+    "installer\Unregister-Installed-Package.ps1",
+    "installer\WinPebble-Setup-Dev.ico"
+)
+
+foreach ($relativePath in $requiredBuildFiles) {
+    $fullPath = Join-Path $root $relativePath
+    if (-not (Test-Path -LiteralPath $fullPath)) {
+        throw "Required build input is missing: $relativePath"
+    }
+}
+
+Write-Host "PASS: Repository build inputs complete" -ForegroundColor Green
+Write-Host ""
+
 & (Join-Path $root "Check-Installer-Prerequisites.ps1")
 
 $candidates = @(

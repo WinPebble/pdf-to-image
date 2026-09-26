@@ -10,9 +10,6 @@ Write-Host "WinPebble PDF to Image - Explorer Integration Dev v1"
 Write-Host ""
 
 & (Join-Path $root "Check-Explorer-Prerequisites.ps1")
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
 
 # Locate Visual Studio C++ environment.
 $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
