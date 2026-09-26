@@ -4,15 +4,23 @@ WinPebble intends to use Open Source code signing for official Windows releases 
 
 **Free code signing provided by SignPath.io, certificate by SignPath Foundation.**
 
-> SignPath Foundation approval is still pending. Current development builds are not production-signed.
+> SignPath Foundation approval is still pending. Current public beta builds are not production-signed.
 
 ## Team roles
 
-- **Authors / committers:** maintainers with write access to `WinPebble/pdf-to-image`.
-- **Reviewers:** WinPebble maintainers responsible for reviewing contributed changes before merge.
-- **Approvers:** WinPebble organization owners responsible for approving release signing requests.
+WinPebble PDF to Image is currently a single-maintainer Open Source project. The same maintainer currently fills the SignPath team roles below:
 
-The final named/permission-group mapping will be completed before the SignPath Foundation application is submitted.
+- **Authors / committers:** [`@AccidentalScholar95`](https://github.com/AccidentalScholar95)
+- **Reviewers:** [`@AccidentalScholar95`](https://github.com/AccidentalScholar95)
+- **Approvers:** [`@AccidentalScholar95`](https://github.com/AccidentalScholar95)
+
+Role responsibilities:
+
+- **Authors / committers** are trusted to modify source code and build configuration in the project repository.
+- **Reviewers** review changes proposed by people who are not committers before merge.
+- **Approvers** manually approve production signing requests.
+
+All people assigned to SignPath roles must use multi-factor authentication for both the source-code repository account and SignPath account.
 
 ## Source and build provenance
 
@@ -21,10 +29,22 @@ The final named/permission-group mapping will be completed before the SignPath F
 - Production signing requests must originate from an approved trusted build system and a permitted release branch.
 - Build scripts, packaging scripts, CI workflows, and signing configuration are security-sensitive source code.
 - Release signing requires manual approval.
+- Upstream or third-party binaries must not be signed using the WinPebble project signing identity unless they are WinPebble-owned source artifacts permitted by the SignPath Foundation policy.
+
+## Release form
+
+The intended signed public artifact is the Windows Setup EXE produced by the repository's GitHub Actions release-form workflow.
+
+The first public unsigned release in this form is:
+
+- `v0.9.0-beta`
+- https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta
 
 ## Privacy
 
 See [PRIVACY.md](PRIVACY.md).
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.
 
 ## Security and user trust
 

@@ -1,6 +1,6 @@
 # WinPebble PDF to Image 0.9.0-beta
 
-This is an **unsigned pre-release build** used to establish the release form and verifiable build pipeline before production code signing.
+This is an **unsigned public pre-release** establishing WinPebble PDF to Image's release form and verifiable GitHub build pipeline before production code signing.
 
 ## Highlights
 
@@ -17,13 +17,19 @@ This is an **unsigned pre-release build** used to establish the release form and
 
 ## Installer
 
-Release form:
+Public release asset:
 
 ```text
-WinPebble-PDF-to-Image-Setup-Beta-Dev.exe
+WinPebble-PDF-to-Image-Setup-0.9.0-beta-unsigned.exe
 ```
 
 The installer is built from this repository by GitHub Actions on a GitHub-hosted Windows runner.
+
+SHA-256:
+
+```text
+a4591bfc9c844de580f81f8acfca9ffe2972649a91f934e76f079badd01e77e1
+```
 
 ## Important signing status
 
@@ -33,6 +39,12 @@ It exists so WinPebble can establish a public release in the same Setup EXE form
 
 Do not disable Windows security protections for normal use. Production releases are intended to install and run with Smart App Control and Microsoft Defender enabled.
 
+## Code signing policy
+
+**Free code signing provided by SignPath.io, certificate by SignPath Foundation.**
+
+See the project's [Code signing policy](CODE_SIGNING_POLICY.md).
+
 ## Version
 
 ```text
@@ -41,8 +53,12 @@ FileVersion:    0.9.0.0
 Architecture:   x64
 ```
 
+## Privacy
+
+Conversion happens locally on the Windows device. PDF contents and generated images are not uploaded by the application.
+
+See [PRIVACY.md](PRIVACY.md).
+
 ## License
 
 MIT License.
-
-See the repository for source code, privacy information, build instructions, third-party notices and the code signing policy.
