@@ -1,0 +1,11 @@
+artifacts/
+**/bin/
+**/obj/
+.vs/
+*.pfx
+*.cer
+*.snk
+*.user
+*.suo
+*.tmp
+*.log
