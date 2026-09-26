@@ -44,17 +44,17 @@ jobs:
       - name: Verify release-form artifact
         shell: pwsh
         run: |
-          $setup = ".\artifacts\installer\WinPebble-PDF-to-Image-Setup-Beta-Dev.exe"
+          $setup = ".\artifacts\installer\WinPebble-PDF-to-Image-Setup-Beta1-Dev.exe"
           if (-not (Test-Path $setup)) { throw "Setup EXE was not produced." }
 
           $vi = (Get-Item $setup).VersionInfo
           if ($vi.ProductName -ne "WinPebble PDF to Image") {
             throw "Unexpected ProductName: $($vi.ProductName)"
           }
-          if ($vi.ProductVersion -ne "0.9.0-beta") {
+          if ($vi.ProductVersion -ne "0.9.0-beta.1") {
             throw "Unexpected ProductVersion: $($vi.ProductVersion)"
           }
-          if ($vi.FileVersion -ne "0.9.0.0") {
+          if ($vi.FileVersion -ne "0.9.0.1") {
             throw "Unexpected FileVersion: $($vi.FileVersion)"
           }
 
@@ -66,11 +66,10 @@ jobs:
           Get-Content ".\artifacts\installer\SHA256SUMS.txt"
 
       - name: Upload unsigned release-form artifact
-        id: upload-release-form
         uses: actions/upload-artifact@v4
         with:
-          name: winpebble-pdf-to-image-0.9.0-beta-unsigned
+          name: winpebble-pdf-to-image-0.9.0-beta.1-unsigned
           path: |
-            artifacts/installer/WinPebble-PDF-to-Image-Setup-Beta-Dev.exe
+            artifacts/installer/WinPebble-PDF-to-Image-Setup-Beta1-Dev.exe
             artifacts/installer/SHA256SUMS.txt
           if-no-files-found: error

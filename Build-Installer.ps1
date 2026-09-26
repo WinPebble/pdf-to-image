@@ -9,11 +9,9 @@ $certDir = Join-Path $root "artifacts\dev-cert"
 $installerSource = Join-Path $root "installer"
 
 Write-Host "WinPebble PDF to Image - NSIS Installer Dev v1"
-Write-Host "Version: 0.9.0-beta"
+Write-Host "Version: 0.9.0-beta.1"
 Write-Host ""
 
-# Repository/build-chain preflight. Fail early with an exact missing path instead
-# of reaching a nested build step and failing later.
 $requiredBuildFiles = @(
     "Check-Installer-Prerequisites.ps1",
     "Check-Explorer-Prerequisites.ps1",
@@ -95,7 +93,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "NSIS compilation failed."
 }
 
-$setup = Join-Path $dist "WinPebble-PDF-to-Image-Setup-Beta-Dev.exe"
+$setup = Join-Path $dist "WinPebble-PDF-to-Image-Setup-Beta1-Dev.exe"
 if (-not (Test-Path -LiteralPath $setup)) {
     throw "NSIS completed but Setup.exe was not found."
 }
@@ -106,7 +104,7 @@ Write-Host "[4/4] Validating version metadata and hashes..."
 $exe = Join-Path $external "WinPebble.PDFToImage.exe"
 $dll = Join-Path $external "WinPebble.PDFToImage.Shell.dll"
 
-$expectedFileVersion = "0.9.0.0"
+$expectedFileVersion = "0.9.0.1"
 
 foreach ($file in @($exe, $dll, $setup)) {
     $vi = (Get-Item -LiteralPath $file).VersionInfo
@@ -120,8 +118,8 @@ foreach ($file in @($exe, $dll, $setup)) {
         throw "Unexpected ProductName for $file. Got '$($vi.ProductName)'."
     }
 
-    if ($vi.ProductVersion -ne "0.9.0-beta") {
-        throw "Unexpected ProductVersion for $file. Expected 0.9.0-beta, got '$($vi.ProductVersion)'."
+    if ($vi.ProductVersion -ne "0.9.0-beta.1") {
+        throw "Unexpected ProductVersion for $file. Expected 0.9.0-beta.1, got '$($vi.ProductVersion)'."
     }
 
     if ($vi.FileVersion -ne $expectedFileVersion) {
@@ -140,10 +138,3 @@ Write-Host "  $setup"
 Write-Host ""
 Write-Host ("Size    : {0:N0} bytes ({1:N2} MiB)" -f $info.Length, ($info.Length / 1MB))
 Write-Host "SHA-256 : $hash"
-Write-Host ""
-Write-Host "Next:"
-Write-Host "  1. Run WinPebble-PDF-to-Image-Setup-Beta-Dev.exe"
-Write-Host "  2. Run .\Test-Installed-State.ps1"
-Write-Host "  3. Test Convert PDF to PNG/JPG"
-Write-Host "  4. Uninstall from Settings > Apps"
-Write-Host "  5. Run .\Test-Uninstalled-State.ps1"
