@@ -1,7 +1,5 @@
 # SignPath Foundation readiness
 
-This document tracks the work required before and after WinPebble applies for free Open Source code signing from SignPath Foundation.
-
 ## Already addressed
 
 - [x] Public GitHub repository
@@ -15,63 +13,53 @@ This document tracks the work required before and after WinPebble applies for fr
 - [x] Named SignPath roles for the current maintainer
 - [x] Install/uninstall implementation documented
 - [x] No telemetry/background service in the utility
-- [x] Public release must not require disabling Windows security
-- [x] Release-form installer technology selected: NSIS
-- [x] NSIS installer explicitly uses zlib compression
-- [x] Local NSIS install/use/uninstall gate passed end-to-end
-- [x] Product/version metadata aligned to `0.9.0-beta` / `0.9.0.0`
-- [x] GitHub Actions builds the Setup EXE successfully from `main`
-- [x] GitHub Actions verifies product/version metadata
-- [x] GitHub Actions generates SHA-256 for the Setup EXE
-- [x] Public `v0.9.0-beta` GitHub pre-release published in the intended Setup EXE release form
+- [x] NSIS Setup EXE release form
+- [x] Product/version metadata aligned to `0.9.0-beta.1` / `0.9.0.1`
+- [x] GitHub Actions builds and verifies the Setup EXE from `main`
+- [x] CI-generated SHA-256
+- [x] Development-certificate system change disclosed before installation
+- [x] Development certificate removed during uninstall
+- [x] Public `v0.9.0-beta.1` pre-release published
+- [x] Release page includes Code signing policy and Privacy links
 
 ## Current public release
 
-Release:
+Release: `v0.9.0-beta.1`
+
+https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta.1
+
+Artifact:
 
 ```text
-v0.9.0-beta
+WinPebble-PDF-to-Image-Setup-0.9.0-beta.1-unsigned.exe
 ```
 
-Public release page:
-
-https://github.com/WinPebble/pdf-to-image/releases/tag/v0.9.0-beta
-
-Public artifact:
+SHA-256:
 
 ```text
-WinPebble-PDF-to-Image-Setup-0.9.0-beta-unsigned.exe
+f0c13d6500dd1e8bacc0eedda56cd2663f2d6756b717ede6b63e96c67dd73872
 ```
 
-Setup SHA-256:
+Source/build commit:
 
 ```text
-a4591bfc9c844de580f81f8acfca9ffe2972649a91f934e76f079badd01e77e1
+6ad99e83e4b13469a47a06883181bbecb3491587
 ```
-
-The beta is intentionally unsigned. It establishes the release form and verifiable build path that is intended to be production-signed after SignPath Foundation approval.
 
 ## Required before application submission
 
 - [ ] Confirm all current maintainers use GitHub multi-factor authentication
 - [ ] Confirm the SignPath applicant will enable/use SignPath multi-factor authentication
-- [ ] Ensure the public release page includes a visible **Code signing policy** link/section
-- [ ] Review the application preparation document for accuracy
+- [ ] Review `SIGNPATH_APPLICATION_DRAFT.md`
 - [ ] Submit the SignPath Foundation application
-
-## External review consideration
-
-SignPath Foundation evaluates project reputation and control, especially for executable programs distributed to end users.
-
-WinPebble PDF to Image is a new project. Technical eligibility work can be completed now, but acceptance remains subject to SignPath Foundation's review and may depend on additional public project history or reputation.
 
 ## After SignPath Foundation approval
 
-- [ ] Install/configure the SignPath GitHub integration required for the approved project
-- [ ] Configure GitHub as the trusted/verifiable build system
+- [ ] Configure the approved SignPath/GitHub integration
+- [ ] Configure the trusted/verifiable GitHub build system
 - [ ] Define artifact configuration and enforce product/version metadata restrictions
-- [ ] Add the production signing-request workflow
-- [ ] Require manual approval for each production signing request
-- [ ] Replace development signing/trust with SignPath production signing
-- [ ] Validate the signed installer with Smart App Control and Microsoft Defender enabled
-- [ ] Publish the first production-signed WinPebble PDF to Image release
+- [ ] Add production signing-request workflow
+- [ ] Require manual approval for every production signing request
+- [ ] Remove development certificate requirements from the production release path
+- [ ] Validate signed installer with Smart App Control and Microsoft Defender enabled
+- [ ] Publish the first production-signed release
