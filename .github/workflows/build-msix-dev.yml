@@ -1,0 +1,55 @@
+name: Build Full MSIX Dev Gate
+
+on:
+  push:
+    branches: [ store-msix-dev ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-msix-dev:
+    runs-on: windows-2025
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build full MSIX dev package
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+          .\Build-MSIX-Dev.ps1
+
+      - name: Verify MSIX artifact
+        shell: pwsh
+        run: |
+          $msix = ".\artifacts\msix-dev\out\WinPebble-PDF-to-Image-0.9.0-beta.1-Full-Dev.msix"
+          $cer = ".\artifacts\msix-dev\cert\WinPebble-PDFToImage-Full-MSIX-Dev.cer"
+          $sums = ".\artifacts\msix-dev\out\SHA256SUMS-MSIX-DEV.txt"
+
+          foreach ($file in @($msix, $cer, $sums)) {
+            if (-not (Test-Path -LiteralPath $file)) {
+              throw "Expected MSIX dev artifact missing: $file"
+            }
+          }
+
+          Get-Item $msix | Select-Object Name,Length
+          Get-Content $sums
+
+      - name: Upload full MSIX dev gate
+        uses: actions/upload-artifact@v4
+        with:
+          name: winpebble-pdf-to-image-full-msix-dev-gate-v1
+          path: |
+            artifacts/msix-dev/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Full-Dev.msix
+            artifacts/msix-dev/out/SHA256SUMS-MSIX-DEV.txt
+            artifacts/msix-dev/cert/WinPebble-PDFToImage-Full-MSIX-Dev.cer
+          if-no-files-found: error

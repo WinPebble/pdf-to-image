@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+  xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
+  IgnorableNamespaces="uap uap10 rescap com desktop4 desktop5">
+
+  <!--
+    Development identity only.
+    The Store submission manifest must later use the exact Identity Name and
+    Publisher values assigned in Partner Center.
+  -->
+  <Identity
+    Name="WinPebble.PDFToImage.StoreDev"
+    Publisher="CN=WinPebble Development"
+    Version="1.0.0.0"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>WinPebble PDF to Image</DisplayName>
+    <PublisherDisplayName>WinPebble</PublisherDisplayName>
+    <Description>Convert PDF pages to PNG or JPG directly from File Explorer.</Description>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Dependencies>
+    <!-- Current verified public compatibility is Windows 11 x64. -->
+    <TargetDeviceFamily
+      Name="Windows.Desktop"
+      MinVersion="10.0.22000.0"
+      MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Applications>
+    <Application
+      Id="PDFToImage"
+      Executable="WinPebble.PDFToImage.exe"
+      uap10:RuntimeBehavior="packagedClassicApp"
+      uap10:TrustLevel="mediumIL">
+
+      <uap:VisualElements
+        DisplayName="WinPebble PDF to Image"
+        Description="Convert PDF pages to PNG or JPG directly from File Explorer."
+        BackgroundColor="transparent"
+        Square44x44Logo="Assets\Square44x44Logo.png"
+        Square150x150Logo="Assets\Square150x150Logo.png" />
+
+      <Extensions>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:SurrogateServer DisplayName="WinPebble PDF to Image commands">
+              <com:Class
+                Id="5F0CDA3B-27EE-4AA4-96E4-2D38A09F83B1"
+                Path="WinPebble.PDFToImage.Shell.dll"
+                ThreadingModel="STA" />
+              <com:Class
+                Id="83008B83-8E5E-45E2-8B6B-CB7F5B386D9C"
+                Path="WinPebble.PDFToImage.Shell.dll"
+                ThreadingModel="STA" />
+            </com:SurrogateServer>
+          </com:ComServer>
+        </com:Extension>
+
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <desktop5:ItemType Type=".pdf">
+              <desktop5:Verb
+                Id="WinPebbleConvertPdfToPng"
+                Clsid="5F0CDA3B-27EE-4AA4-96E4-2D38A09F83B1" />
+              <desktop5:Verb
+                Id="WinPebbleConvertPdfToJpg"
+                Clsid="83008B83-8E5E-45E2-8B6B-CB7F5B386D9C" />
+            </desktop5:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>
