@@ -1,0 +1,55 @@
+name: Build Microsoft Store MSIX
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-store-msix:
+    runs-on: windows-2025
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build Store-ready MSIX
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+          .\Build-MSIX-Store.ps1
+
+      - name: Verify Store artifact
+        shell: pwsh
+        run: |
+          $msix = ".\artifacts\msix-store\out\WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix"
+          $sums = ".\artifacts\msix-store\out\SHA256SUMS-STORE.txt"
+          $manifest = ".\artifacts\msix-store\out\AppxManifest.Store.xml"
+
+          foreach ($file in @($msix, $sums, $manifest)) {
+            if (-not (Test-Path -LiteralPath $file)) {
+              throw "Expected Store artifact missing: $file"
+            }
+          }
+
+          Get-Item $msix | Select-Object Name,Length
+          Get-Content $sums
+
+      - name: Upload Store MSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: winpebble-pdf-to-image-store-msix-v1
+          path: |
+            artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix
+            artifacts/msix-store/out/SHA256SUMS-STORE.txt
+            artifacts/msix-store/out/AppxManifest.Store.xml
+          if-no-files-found: error

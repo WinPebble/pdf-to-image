@@ -2,7 +2,7 @@ name: Build Full MSIX Dev Gate
 
 on:
   push:
-    branches: [ store-msix-dev ]
+    branches: [ main, store-msix-dev ]
   pull_request:
   workflow_dispatch:
 
