@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $manifestSource = Join-Path $root "store-msix\AppxManifest.Store.xml"
@@ -10,7 +10,7 @@ $buildDir = Join-Path $artifactsRoot "build"
 $expectedName = "TrungHieuNguyen-WinPebble.WinPebblePDFtoImage"
 $expectedPublisher = "CN=6BD09250-A4F3-4F78-9DA7-2D9751735950"
 $expectedPublisherDisplayName = "Trung Hieu Nguyen - WinPebble"
-$expectedVersion = "1.0.0.0"
+$expectedVersion = "1.0.1.0"
 
 Write-Host "WinPebble PDF to Image - Microsoft Store MSIX Gate v1"
 Write-Host ""
@@ -163,7 +163,7 @@ if ($forbidden) {
     throw "Store package input contains certificate material: $($forbidden.FullName -join ', ')"
 }
 
-$msix = Join-Path $outDir "WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix"
+$msix = Join-Path $outDir "WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix"
 
 Write-Host ""
 Write-Host "[5/6] Packing Store-ready MSIX (unsigned for Partner Center)..."
@@ -209,7 +209,7 @@ $dllHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $stage "WinPe
 
 $sumFile = Join-Path $outDir "SHA256SUMS-STORE.txt"
 @"
-SHA256 (WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix) = $msixHash
+SHA256 (WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix) = $msixHash
 SHA256 (WinPebble.PDFToImage.exe) = $coreHash
 SHA256 (WinPebble.PDFToImage.Shell.dll) = $dllHash
 "@ | Set-Content -LiteralPath $sumFile -Encoding ASCII
