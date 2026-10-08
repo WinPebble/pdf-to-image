@@ -17,7 +17,7 @@
   <Identity
     Name="TrungHieuNguyen-WinPebble.WinPebblePDFtoImage"
     Publisher="CN=6BD09250-A4F3-4F78-9DA7-2D9751735950"
-    Version="1.0.0.0"
+    Version="1.0.1.0"
     ProcessorArchitecture="x64" />
 
   <Properties>

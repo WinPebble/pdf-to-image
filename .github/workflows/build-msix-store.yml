@@ -31,7 +31,7 @@ jobs:
       - name: Verify Store artifact
         shell: pwsh
         run: |
-          $msix = ".\artifacts\msix-store\out\WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix"
+          $msix = ".\artifacts\msix-store\out\WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix"
           $sums = ".\artifacts\msix-store\out\SHA256SUMS-STORE.txt"
           $manifest = ".\artifacts\msix-store\out\AppxManifest.Store.xml"
 
@@ -47,9 +47,9 @@ jobs:
       - name: Upload Store MSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: winpebble-pdf-to-image-store-msix-v1
+          name: winpebble-pdf-to-image-store-msix-1.0.1.0
           path: |
-            artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix
+            artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix
             artifacts/msix-store/out/SHA256SUMS-STORE.txt
             artifacts/msix-store/out/AppxManifest.Store.xml
           if-no-files-found: error

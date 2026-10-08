@@ -33,7 +33,7 @@ The Store build is:
 Output:
 
 ```text
-artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store.msix
+artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix
 ```
 
 This Store artifact is intentionally **unsigned**. Microsoft Store accepts MSIX/AppX packages
