@@ -156,10 +156,7 @@ internal sealed class ConversionApplicationContext : ApplicationContext, IProgre
         }
         catch (InvalidOperationException)
         {
-            // The UI is already closing.
-        }
-        catch (ObjectDisposedException)
-        {
+            // Also covers ObjectDisposedException, a derived exception.
             // The UI is already closing.
         }
     }
