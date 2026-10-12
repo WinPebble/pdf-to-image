@@ -2,7 +2,9 @@
 
 A lightweight Windows utility that converts PDF pages to PNG or JPG directly from File Explorer.
 
-> **Status:** public pre-release `v0.9.0-beta.1` is available. The Windows-native conversion core, Windows 11 Explorer integration, NSIS install/uninstall workflow, explicit development-certificate disclosure, and GitHub-hosted release-form build have been validated. Production code signing is still pending SignPath Foundation approval.
+> **Status:** released on [Microsoft Store](https://apps.microsoft.com/detail/9NRZMPGMQPS4) for Windows 11 x64. The source Store manifest is version `1.0.1.0`. Windows 10 compatibility and a cancellable progress window are under development; they are not yet production support commitments. See [development status](docs/DEVELOPMENT_STATUS.md).
+
+Store availability is confirmed by the maintainer. The manifest version describes this repository's packaging baseline, not an independently verified version currently delivered by the Store. Progress UI/Cancel and Windows 10 support remain draft experiments in PR #10 and PR #9 respectively; this branch adds neither feature.
 
 ## What it does
 
@@ -15,11 +17,17 @@ A lightweight Windows utility that converts PDF pages to PNG or JPG directly fro
 - Does not use Poppler or another third-party PDF rendering runtime.
 - Does not run a background service or collect telemetry.
 
-## Release-form installer
+## Development and distribution
+
+Microsoft Store is the production distribution path. Full-MSIX development packages use a separate identity and self-signed test certificate. See [BUILDING.md](BUILDING.md), [the MSIX guide](store-msix/README.md) and [Store submission](store-msix/STORE_SUBMISSION.md).
+
+The repository also retains the optional direct-download NSIS beta path below. Its development certificate is not required by the Store release.
+
+## Legacy beta installer
 
 WinPebble PDF to Image uses **NSIS** for the Setup EXE release form.
 
-Current public development pre-release:
+Retained development pre-release metadata:
 
 ```text
 Release label : 0.9.0-beta.1
@@ -37,9 +45,9 @@ See [PRIVACY.md](PRIVACY.md).
 
 ## Code signing policy
 
-**Free code signing provided by SignPath.io, certificate by SignPath Foundation.**
+The planned direct-download signing path names SignPath.io and SignPath Foundation as providers; approval and production signing have not been verified in this review.
 
-SignPath Foundation approval is pending. Current public beta binaries are unsigned.
+The NSIS beta documentation records SignPath Foundation approval as pending and beta Setup binaries as unsigned. This signing path is separate from Microsoft Store distribution.
 
 See [CODE_SIGNING_POLICY.md](CODE_SIGNING_POLICY.md) and [SIGNPATH_READINESS.md](SIGNPATH_READINESS.md).
 

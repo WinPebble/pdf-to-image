@@ -4,10 +4,10 @@
 
 $ErrorActionPreference = "Stop"
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$root = Split-Path -Parent $PSScriptRoot
 
 if ([string]::IsNullOrWhiteSpace($ExePath)) {
-    $exe = Join-Path $root "artifacts\core\WinPebble.PDFToImage.exe"
+    $exe = Join-Path $root "artifacts\standalone\WinPebble.PDFToImage.exe"
 }
 else {
     $exe = [System.IO.Path]::GetFullPath($ExePath)
@@ -109,7 +109,7 @@ function Assert-NoTempArtifacts {
 
 if (-not (Test-Path -LiteralPath $exe)) {
     Write-Host "ERROR: Core executable not found." -ForegroundColor Red
-    Write-Host "Run .\Build-Dev.ps1 first."
+    Write-Host "Run .\Build-Standalone.ps1 from the repository root first."
     exit 1
 }
 

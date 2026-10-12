@@ -1,10 +1,12 @@
 # Code signing policy
 
-WinPebble intends to use Open Source code signing for official Windows releases of PDF to Image.
+Microsoft Store is the production distribution path for PDF to Image. Its full MSIX identity and submission process are documented in [store-msix/STORE_IDENTITY.md](store-msix/STORE_IDENTITY.md) and [store-msix/STORE_SUBMISSION.md](store-msix/STORE_SUBMISSION.md). Store packages are submitted unsigned and signed through the Store process; this does not depend on SignPath approval.
 
-**Free code signing provided by SignPath.io, certificate by SignPath Foundation.**
+The following SignPath policy applies to the separate direct-download Setup EXE path.
 
-> SignPath Foundation approval is still pending. Current public beta builds are not production-signed.
+The planned provider attribution is: **Free code signing provided by SignPath.io, certificate by SignPath Foundation.** This is not a statement that approval has been granted or any production artifact has been signed.
+
+> Existing beta/readiness documents record SignPath Foundation approval as pending and beta Setup binaries as not production-signed. The review on 2026-10-12 did not verify current SignPath account/approval state. Do not claim production signing without approval and artifact evidence.
 
 ## Team roles
 
@@ -33,7 +35,7 @@ All people assigned to SignPath roles must use multi-factor authentication for b
 
 ## Release form
 
-The intended signed public artifact is the Windows Setup EXE produced by the repository's GitHub Actions release-form workflow.
+For the direct-download signing path, the intended signed public artifact is the Windows Setup EXE produced by the repository's GitHub Actions release-form workflow. A successful build does not authorize signing, publication or Store submission.
 
 Unsigned development previews may use a local development certificate to register the sparse Windows package required for the modern File Explorer integration. When such a preview does this, the installer must explicitly disclose the certificate-store change before installation and the uninstaller must remove that exact development certificate.
 
