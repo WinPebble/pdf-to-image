@@ -62,4 +62,4 @@ Write-Host ("EXE size : {0:N0} bytes ({1:N2} MiB)" -f $size, ($size / 1MB))
 Write-Host "SHA-256 : $hash"
 Write-Host ""
 Write-Host "Next:"
-Write-Host "  .\Test-Standalone.ps1"
+Write-Host "  .\scripts\Test-Hardening.ps1"

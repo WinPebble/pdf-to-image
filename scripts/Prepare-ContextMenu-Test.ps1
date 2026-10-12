@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = "Stop"
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$root = Split-Path -Parent $PSScriptRoot
 $source = Join-Path $root "tests\Hardening-A4.pdf"
 $testDir = Join-Path $root "artifacts\context-menu-test"
 

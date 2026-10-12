@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Added repository guidance, a dated development-status snapshot and a validation-record template.
+- Documented the separate Microsoft Store, full-MSIX development and NSIS beta paths.
+- Made legacy build entry points delegate to root scripts and corrected hardening/context-menu fixture paths.
+- Preserved target exit codes in compatibility wrappers and added isolated regression tests for success, failure and missing SDK handling.
+
 ## 0.9.0-beta.1 — development certificate disclosure
 
 - Added an explicit installer warning before the unsigned development preview adds the local `WinPebble Development` certificate to `Local Computer > Trusted People`.
