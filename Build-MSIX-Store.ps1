@@ -10,7 +10,8 @@ $buildDir = Join-Path $artifactsRoot "build"
 $expectedName = "TrungHieuNguyen-WinPebble.WinPebblePDFtoImage"
 $expectedPublisher = "CN=6BD09250-A4F3-4F78-9DA7-2D9751735950"
 $expectedPublisherDisplayName = "Trung Hieu Nguyen - WinPebble"
-$expectedVersion = "1.0.1.0"
+$expectedVersion = "1.0.2.0"
+$expectedMinVersion = "10.0.19041.0"
 
 Write-Host "WinPebble PDF to Image - Microsoft Store MSIX Gate v1"
 Write-Host ""
@@ -82,9 +83,11 @@ $ns.AddNamespace("f", "http://schemas.microsoft.com/appx/manifest/foundation/win
 
 $identity = $sourceManifest.SelectSingleNode("/f:Package/f:Identity", $ns)
 $properties = $sourceManifest.SelectSingleNode("/f:Package/f:Properties", $ns)
+$deviceFamily = $sourceManifest.SelectSingleNode("/f:Package/f:Dependencies/f:TargetDeviceFamily", $ns)
 
 if (-not $identity) { throw "Store manifest Identity node missing." }
 if (-not $properties) { throw "Store manifest Properties node missing." }
+if (-not $deviceFamily) { throw "Store manifest TargetDeviceFamily node missing." }
 
 if ($identity.Name -cne $expectedName) {
     throw "Store Identity Name mismatch. Expected '$expectedName', got '$($identity.Name)'."
@@ -97,6 +100,9 @@ if ($identity.Version -cne $expectedVersion) {
 }
 if ($identity.ProcessorArchitecture -cne "x64") {
     throw "Unexpected Store MSIX architecture: $($identity.ProcessorArchitecture)"
+}
+if ($deviceFamily.Name -cne "Windows.Desktop" -or $deviceFamily.MinVersion -cne $expectedMinVersion) {
+    throw "Store target OS mismatch. Expected Windows.Desktop minimum '$expectedMinVersion', got '$($deviceFamily.Name)' minimum '$($deviceFamily.MinVersion)'."
 }
 if ($properties.PublisherDisplayName -cne $expectedPublisherDisplayName) {
     throw "PublisherDisplayName mismatch. Expected '$expectedPublisherDisplayName', got '$($properties.PublisherDisplayName)'."
@@ -163,7 +169,7 @@ if ($forbidden) {
     throw "Store package input contains certificate material: $($forbidden.FullName -join ', ')"
 }
 
-$msix = Join-Path $outDir "WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix"
+$msix = Join-Path $outDir "WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.2.0.msix"
 
 Write-Host ""
 Write-Host "[5/6] Packing Store-ready MSIX (unsigned for Partner Center)..."
@@ -209,7 +215,7 @@ $dllHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $stage "WinPe
 
 $sumFile = Join-Path $outDir "SHA256SUMS-STORE.txt"
 @"
-SHA256 (WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix) = $msixHash
+SHA256 (WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.2.0.msix) = $msixHash
 SHA256 (WinPebble.PDFToImage.exe) = $coreHash
 SHA256 (WinPebble.PDFToImage.Shell.dll) = $dllHash
 "@ | Set-Content -LiteralPath $sumFile -Encoding ASCII
