@@ -4,7 +4,7 @@ A lightweight Windows utility that converts PDF pages to PNG or JPG directly fro
 
 > **Status:** released on [Microsoft Store](https://apps.microsoft.com/detail/9NRZMPGMQPS4) for Windows 11 x64. The source Store manifest is version `1.0.1.0`. Windows 10 compatibility and a cancellable progress window are under development; they are not yet production support commitments. See [development status](docs/DEVELOPMENT_STATUS.md).
 
-Store availability is confirmed by the maintainer. The manifest version describes this repository's packaging baseline, not an independently verified version currently delivered by the Store. Progress UI/Cancel and Windows 10 support remain draft experiments in PR #10 and PR #9 respectively; this branch adds neither feature.
+Store availability is confirmed by the maintainer. The manifest version describes this repository's packaging baseline, not an independently verified version currently delivered by the Store. Progress UI/Cancel and Windows 10 support remain draft experiments in PR #10 and PR #9 respectively. The local `codex/win10-progress-validation` branch assembles those experiments for development testing; they are not released Store features. See [the device test guide](docs/WIN10_PROGRESS_DEVICE_GUIDE.md).
 
 ## What it does
 
