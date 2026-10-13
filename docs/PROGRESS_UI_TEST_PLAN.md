@@ -1,6 +1,6 @@
 # WinPebble PDF to Image - Progress UI development test
 
-**Experimental; do not merge into main or publish a Store MSIX until Windows 10 and Windows 11 tests pass.**
+**Development feature integrated into main through PR #12; not released on Microsoft Store.** Guided device results and remaining acceptance items are recorded separately; the checklist below is not a blanket PASS claim.
 
 ## Intent and scope
 
@@ -15,9 +15,9 @@
 
 ## Branching policy
 
-This PR targets `win10-22h2-msix-dev-validation` (PR #9), NOT `main`, so that the signed development artifact can be tested on Windows 10. The Windows 10 compatibility PR remains unchanged. The *production* Store manifest/version and production build workflow remain unchanged.
+Historical PR #10 targeted `win10-22h2-msix-dev-validation` (PR #9). PR #12 consolidated that work plus cleanup fixes and was merged on 2026-10-13. PR #9/#10 are closed as superseded; no retarget/rebase or separate merge is needed. The production Store manifest/version and production build workflow remain unchanged.
 
-After PR #9 is validated, cleanly merged and a progress UI test passes, retarget/rebase this feature onto main, review the diff and submit a separate Store package update. Do not merge this draft PR directly or submit PR build artifacts to Microsoft Partner Center.
+Continue from current main for further approved development. See [the cleanup/device record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) for artifact-specific results. A production package update/submission is a separate approved task; PR artifacts are not automatically approved for Partner Center.
 
 ## Acceptance tests on both Windows 10 22H2 x64 and Windows 11 x64
 

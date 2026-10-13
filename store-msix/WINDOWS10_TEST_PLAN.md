@@ -1,6 +1,6 @@
 # Windows 10 22H2 x64 - development validation gate
 
-**Status: experimental. Do not merge into `main` or claim Windows 10 support before a real-device pass.**
+**Status: development change integrated into main via PR #12; not a production Windows 10 support commitment.** PR #9 is closed as superseded. Recorded device passes cover specific artifact hashes; use [the latest validation record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) for evidence and remaining cases.
 
 ## Scope
 
@@ -11,7 +11,7 @@
 
 ## Build and install
 
-1. Open this PR's successful **Build Full MSIX Dev Gate** GitHub Actions run.
+1. Select an approved development artifact: the hash-identified local kit in the latest validation record, or a successful **Build Full MSIX Dev Gate** run for the intended main/PR SHA. A different CI artifact needs its own hash and device evidence.
 2. Download artifact `winpebble-pdf-to-image-full-msix-dev-gate-v1`.
 3. Unzip the MSIX and CER files. Verify the SHA256SUMS-MSIX-DEV.txt file.
 4. To reuse repository scripts, place the MSIX in `artifacts/msix-dev/out/` and the CER in `artifacts/msix-dev/cert/`. Keep the original filenames.

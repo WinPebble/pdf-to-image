@@ -1,5 +1,7 @@
 # Windows 10 / Progress UI review package
 
+Post-review update, 2026-10-13: PR #12 merged at `cf9f7ad0180c26cc987f4d22251979d1f717e6d5`; all three post-merge packaging workflows passed. PR #9/#10 were closed as superseded without deleting source branches. No release or Store update occurred. The preparation history below retains its original review/build provenance.
+
 Prepared 2026-10-12. Local branch: `codex/win10-progress-validation`; baseline `7039ff0b3eac8fae0f21da0669fbb52c3271e900`. Changes are uncommitted/unpushed. This is a review handoff, not release approval or a new GitHub PR.
 
 ## Cleanup follow-up
