@@ -17,7 +17,7 @@
   <Identity
     Name="TrungHieuNguyen-WinPebble.WinPebblePDFtoImage"
     Publisher="CN=6BD09250-A4F3-4F78-9DA7-2D9751735950"
-    Version="1.0.1.0"
+    Version="1.0.2.0"
     ProcessorArchitecture="x64" />
 
   <Properties>
@@ -32,10 +32,10 @@
   </Resources>
 
   <Dependencies>
-    <!-- Current verified support: Windows 11 x64. -->
+    <!-- Release candidate: Windows 10 build 19041+ and Windows 11 x64. -->
     <TargetDeviceFamily
       Name="Windows.Desktop"
-      MinVersion="10.0.22000.0"
+      MinVersion="10.0.19041.0"
       MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 

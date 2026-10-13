@@ -1,6 +1,6 @@
 # Store submission path
 
-The Microsoft Store product has now been reserved.
+The Microsoft Store product is already released. Version 1.0.2.0 is being prepared as a candidate update; it has not been submitted or published. See [the candidate scope, version review and submission gates](RELEASE_CANDIDATE.md).
 
 Official Partner Center identity:
 
@@ -33,7 +33,7 @@ The Store build is:
 Output:
 
 ```text
-artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.1.0.msix
+artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.2.0.msix
 ```
 
 This Store artifact is intentionally **unsigned**. Microsoft Store accepts MSIX/AppX packages
