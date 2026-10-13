@@ -2,7 +2,7 @@
 
 ## Product and architecture
 
-- WinPebble PDF to Image is released on Microsoft Store. Windows 11 x64 is the production baseline; Windows 10 requires device validation and a separate approved production update.
+- WinPebble PDF to Image is released on Microsoft Store. Windows 11 x64 remains the released production baseline. Windows 10 development device tests are recorded, but production support needs a separately approved update.
 - Read `README.md`, `BUILDING.md`, `docs/DEVELOPMENT_STATUS.md` and the relevant test plan. Recheck live PR state; dated documents are snapshots.
 - C# in `src/WinPebble.PDFToImage` owns CLI/conversion. Native C++17 in `shell/` implements COM IExplorerCommand and starts a separate conversion process. Keep conversion out of the shell DLL.
 - Full MSIX manifests live in `store-msix/`. `package/AppxManifest.xml` belongs to NSIS/sparse packaging. Root build scripts are canonical; equivalent scripts in `scripts/` are compatibility entry points.
@@ -12,11 +12,11 @@
 - Preserve source PDFs, offline operation, Unicode paths and batch conversion. Do not introduce telemetry, services or resident processes without a product request.
 - Keep Windows.Data.Pdf, white background, 300 DPI dimensions/metadata and JPEG quality 1.0. Do not change the renderer or add a PDF runtime incidentally.
 - Preserve output names, collision handling and staged multi-page output. Cleanup is best effort; never delete pre-existing user output.
-- Released-baseline CLI codes: 0 success, 1 conversion failure, 2 invalid arguments. The production baseline on main does not implement Progress UI, cancellation or exit code 3; experimental validation branches may include them.
+- Released-baseline CLI codes: 0 success, 1 conversion failure, 2 invalid arguments. Main also includes development Progress UI and cancellation exit code 3 after PR #12; this does not establish their availability in the released Store binary.
 
 ## Experimental feature work
 
-- PR #9 tests Windows 10 using the dev manifest only. PR #10 prototypes Progress UI and adds cancellation exit code 3. Neither is a released feature; recheck live status before relying on these draft details.
+- PR #12 integrated PR #9's dev-only Windows 10 manifest and PR #10's Progress UI, plus cleanup fixes, into main. PR #9/#10 were closed without separate merges. These remain unreleased Store features; recheck live PR state and artifact-specific device records before relying on support claims.
 - When working on Progress UI, keep conversion off the UI thread, marshal callbacks safely and cancel at safe boundaries. Preserve completed files' output. Document delayed display, per-PDF percentage and window-close behavior; preserve ordinary console behavior.
 
 ## Scope and Git

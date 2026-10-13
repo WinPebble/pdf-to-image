@@ -1,6 +1,18 @@
 # Development status
 
-Snapshot: 2026-10-12. Recheck GitHub before using these refs.
+Current status: 2026-10-13. Recheck GitHub before using these refs.
+
+## After PR #12 merge
+
+- [PR #12](https://github.com/WinPebble/pdf-to-image/pull/12) merged with maintainer approval at `cf9f7ad0180c26cc987f4d22251979d1f717e6d5`. Local main was fast-forwarded to the same commit.
+- Main now contains the dev Windows 10 manifest, delayed Progress UI/Cancel and best-effort cleanup fixes. PR #9/#10 were closed as superseded without separate merges, rebases, retargets or source-branch deletion.
+- Post-merge builds all passed: [dev MSIX](https://github.com/WinPebble/pdf-to-image/actions/runs/38372844672), [Store MSIX](https://github.com/WinPebble/pdf-to-image/actions/runs/38372844668), [NSIS](https://github.com/WinPebble/pdf-to-image/actions/runs/38372844800). These build/package checks do not automatically execute the regression/hardening suites or certify runtime compatibility.
+- The cleanup-fix local MSIX passed guided smoke cases on both maintainer devices; see the [artifact-specific record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md). Post-merge CI artifacts have their own hashes and are not the manually tested local package.
+- No Store submission, version bump, tag or release was performed. Released support remains Windows 11 x64; Windows 10/Progress UI require a separately approved production update.
+
+## Historical pre-merge snapshots
+
+The following chronology retains earlier refs and decisions. Present-tense branch/PR claims in these dated snapshots describe their inspection stage, not current GitHub state.
 
 Review update, 2026-10-13: after initially deferring retesting, the maintainer completed the cleanup-fix smoke procedure on Windows 11 and explicitly reported that the whole same procedure also passed on their Windows 10 PC. See the [cleanup record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) for new-hash evidence, screenshots versus reported results, and remaining acceptance items. PR #12 remains a development review; no merge or release approval is implied.
 
@@ -23,8 +35,8 @@ The [review handoff](WIN10_PROGRESS_REVIEW.md) covers 22 files. The cleanup erro
 | Scope | Status | Evidence / limit |
 |---|---|---|
 | Windows 11 x64 Explorer PDF-to-PNG/JPG, Windows-native renderer, 300 DPI, output naming and source preservation | Released baseline | Maintainer release confirmation; corresponding behavior exists on `main`. Local CLI checks are recorded in `tests/VALIDATION-2026-10-12-CORE.md`; they are not a Store-binary audit. |
-| Windows 10 22H2 support | Experimental, not released | PR #9 changes only dev MSIX MinVersion; target-framework/API declarations do not prove runtime/install compatibility. |
-| Progress UI and Cancel | Experimental, not released | PR #10 targets PR #9's branch. UI and cancellation code are absent from production `main`; the local validation branch includes them for testing. |
+| Windows 10 22H2 support | Integrated into main for development; not released | PR #12 includes PR #9's dev-only MinVersion change and recorded device smoke evidence. Store production minimum remains unchanged. |
+| Progress UI and Cancel | Integrated into main; not released | PR #12 includes the PR #10 prototype and cleanup fixes; integration is not a Store release. |
 | Windows 10 install/Explorer behavior, UI/Cancel on both OS versions | Development device cases passed, not released | Maintainer reports and screenshots recorded for builds 19045.7725 and 26300.9457. Scope and remaining cases are in the two device records; this does not certify all systems or the Store binary. |
 | Currently delivered Store version and SignPath approval/signature state | Not independently verified | Source version is not proof of the live Store binary; beta documents record SignPath pending. |
 
@@ -49,7 +61,7 @@ All three build workflows succeeded for both PR heads. Dev runs: [PR #9](https:/
 1. Review the recorded Windows 10/11 device evidence and complete unconfirmed acceptance items. Tested artifact includes the local cleanup fix beyond the original PR heads.
 2. Complete precise fast-file delay/auto-close timing, keyboard/DPI, slow single-page and finalization-race checks. Reported functional progress/Cancel/batch/error cases passed on both tested builds.
 3. Record exact artifacts and results with `tests/VALIDATION-RECORD-TEMPLATE.md`.
-4. After dependency approval, review PR #10's base/diff again. Retarget/rebase/merge needs authorization.
+4. PR #12 supersedes the dependent PRs, now closed. Do not merge the old branches again; any further feature work starts from current main under the authorized Git scope.
 5. Prepare a separate approved production update. Do not submit experimental PR artifacts or advertise Windows 10 support before validation.
 
 The branch API reported `main` unprotected during inspection; repository rulesets were not audited. Check both before proposing required checks/review policies.
