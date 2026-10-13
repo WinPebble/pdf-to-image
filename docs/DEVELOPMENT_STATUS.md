@@ -2,7 +2,7 @@
 
 Snapshot: 2026-10-12. Recheck GitHub before using these refs.
 
-Review update, 2026-10-13: the maintainer agreed to defer repeating the cleanup-fix build's two-device smoke tests during review preparation. They remain NOT RUN; prior device passes belong to the old artifact. See the [cleanup record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md). Commit/push, merge and release are not authorized by this deferral.
+Review update, 2026-10-13: after initially deferring retesting, the maintainer completed the cleanup-fix smoke procedure on Windows 11 and explicitly reported that the whole same procedure also passed on their Windows 10 PC. See the [cleanup record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) for new-hash evidence, screenshots versus reported results, and remaining acceptance items. PR #12 remains a development review; no merge or release approval is implied.
 
 ## Follow-up after PR #11 merge
 
@@ -16,7 +16,7 @@ The maintainer has now tested the same signed development MSIX on Windows 10 Pro
 
 The maintainer confirms the application is released on Microsoft Store. The source Store manifest is version 1.0.1.0; this does not independently establish the currently served binary or certification status.
 
-The [review handoff](WIN10_PROGRESS_REVIEW.md) now covers 22 files. The cleanup error masking cancellation was reproduced with real locked/read-only PNG/JPG outputs and fixed with best-effort handling. The [cleanup follow-up record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) records 17/17 regression cases, 12 hardening sections and the newly built MSIX hash. This binary differs from the one tested manually on both devices and needs device smoke retesting. The reproduced long-path limitation remains.
+The [review handoff](WIN10_PROGRESS_REVIEW.md) covers 22 files. The cleanup error masking cancellation was reproduced with real locked/read-only PNG/JPG outputs and fixed with best-effort handling. The [cleanup follow-up record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) records 17/17 regression cases, 12 hardening sections and the new MSIX hash, now followed by passed guided smoke runs on both devices. The reproduced long-path limitation remains.
 
 ## Released, experimental and unverified
 

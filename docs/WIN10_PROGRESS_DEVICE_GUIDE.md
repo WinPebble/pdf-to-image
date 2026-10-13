@@ -19,6 +19,8 @@ For the previous MSIX hash dc83feb149591d01cacce212caa17f44ab2da3db22d173a90a14b
 
 See [the cleanup rebuild record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) for the new artifact. Repeat PNG/JPG success, Cancel, collision preservation and uninstall cleanup on both devices. Package version is unchanged, so explicitly remove any older full-dev package before installing the new hash-verified build. If a locked/read-only new image cannot be deleted after Cancel it may remain; cancellation should still complete, and the original existing output must be preserved.
 
+Update 2026-10-13: those new-build guided smoke cases have now passed on the maintainer's Windows 11 laptop and Windows 10 PC. The cleanup record distinguishes Win11 screenshot/report evidence from the explicit Win10 report and lists remaining unconfirmed acceptance items. Bundled records in the existing ZIP predate this update; the ZIP and binary are unchanged.
+
 ## Prepare an isolated test machine
 
 Use a clean VM/snapshot or dedicated test PC. Do not test alongside the production Store app or sparse NSIS beta: identities differ, but the Explorer commands use shared CLSIDs and could be ambiguous. Do not remove a production installation just to perform this test; use another environment.

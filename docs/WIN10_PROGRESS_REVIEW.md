@@ -4,7 +4,7 @@ Prepared 2026-10-12. Local branch: `codex/win10-progress-validation`; baseline `
 
 ## Cleanup follow-up
 
-The authorized cleanup follow-up reproduced and fixed finding 2 below. See [new regression/build record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md): 17/17 regression and 12 hardening sections passed; a new signed MSIX/ZIP has a new hash and requires device smoke retesting. Previous device evidence remains tied to the old hash. The current review scope is 22 files, including that new record.
+The authorized cleanup follow-up reproduced and fixed finding 2 below. See [new regression/build record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md): 17/17 regression and 12 hardening sections passed. On 2026-10-13 the new hash subsequently passed guided smoke cases on the Windows 11 laptop (screenshots and report) and Windows 10 PC (explicit maintainer report). Earlier original device records remain tied to the old hash. The current review scope is 22 files.
 
 ## Problem and resulting behavior
 
@@ -35,14 +35,16 @@ Store identity/version/manifest, release scripts, workflow YAML, renderer, image
 ## Findings and remaining checks
 
 1. **Known reproduced limitation:** deeply nested paths can fail multi-page conversion with a path-length error. Short paths passed. Long-path work is not included in this change.
-2. **Resolved in cleanup follow-up (historical finding):** single-page cancellation cleanup calls `File.Delete` without a best-effort guard. A sharing/access exception can replace the cancellation exception and be reported as conversion failure. This originated in PR #10's cleanup approach and remained in the first tested artifact. Real locked/read-only cases subsequently reproduced it; guarded cleanup now preserves cancellation. The new artifact must be retested on devices; see the follow-up record above.
-3. DPI at 150%/200%, keyboard/accessibility, precise delayed-show/auto-close timing, slow single-page manual Cancel and finalization races remain unconfirmed. Win11 Explorer-menu removal after uninstall was not separately confirmed. Device-specific dimensions/DPI/source hashes were not recorded separately from host hardening.
+2. **Resolved in cleanup follow-up (historical finding):** single-page cancellation cleanup called `File.Delete` without a best-effort guard. A sharing/access exception could replace the cancellation exception and be reported as conversion failure. Real locked/read-only cases reproduced it; guarded cleanup now preserves cancellation. New-artifact guided smoke runs have since passed on both devices, with the evidence limits recorded above.
+3. DPI at 150%/200%, keyboard/accessibility, precise delayed-show/auto-close timing, slow single-page manual Cancel and finalization races remain unconfirmed. Win11 Explorer-menu removal was not separately confirmed for the old artifact; it was explicitly confirmed during the new-build smoke run. Device-specific dimensions/DPI/source hashes were not recorded separately from host hardening.
 4. Existing native LNK4104 export warnings are nonfatal and unchanged. The uninstall helper remains best effort and can print success despite cleanup errors; device tests used explicit commands and independent checks.
 5. PR plan documents retain historical assumptions about Actions artifacts and future retarget/rebase. They do not authorize Git changes or submission. The tested artifact was built locally, not by a newly dispatched workflow.
 
 ## Review and release boundaries
 
 On 2026-10-13 the maintainer approved deferring the new build's two-device smoke retest while preparing review. See the [recorded exception](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md). New device results remain NOT RUN. This is a review-stage deferral, not a merge/release approval or a transfer of the previous binary's PASS results.
+
+That historical deferral was subsequently superseded for the guided smoke cases by actual maintainer testing on both machines, recorded separately for the new hash. Other unconfirmed acceptance items remain open; this does not authorize merge/release.
 
 Subsequently on 2026-10-13, the maintainer authorized committing/pushing this combined branch and opening a Draft PR into main as a consolidated review vehicle. Earlier references to uncommitted state describe build/test provenance. This publication authorization does not permit changing PR #9/#10, merging, or releasing.
 
