@@ -2,7 +2,21 @@
 
 Snapshot: 2026-10-12. Recheck GitHub before using these refs.
 
+Review update, 2026-10-13: after initially deferring retesting, the maintainer completed the cleanup-fix smoke procedure on Windows 11 and explicitly reported that the whole same procedure also passed on their Windows 10 PC. See the [cleanup record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) for new-hash evidence, screenshots versus reported results, and remaining acceptance items. PR #12 remains a development review; no merge or release approval is implied.
+
+## Follow-up after PR #11 merge
+
+GitHub and local `main` are now at `7039ff0` (PR #11 merged). The sections below describing the documentation PR retain its historical baseline `285ca1f`.
+
+The local `codex/win10-progress-validation` branch starts at `7039ff0` and applies the existing combined PR #9/#10 diff without merging, rebasing, retargeting or pushing either PR branch. Both PRs remain open drafts at the recorded heads. Production Store configuration is unchanged.
+
+Automated cancellation checks reproduced a late single-page cancellation leaving the newly encoded PNG/JPG behind, including the collision case. A small cleanup fix covers all pre-commit cancellation boundaries and preserves pre-existing output. Regression source lives in `tests/WinPebble.DevelopmentChecks/`; it links production conversion sources, uses real Windows rendering and tests a hidden form's state. It does not establish installed Explorer behavior or Windows 10 compatibility.
+
+The maintainer has now tested the same signed development MSIX on Windows 10 Pro 22H2 x64 build 19045.7725 and Windows 11 Pro 26H2 build 26300.9457. Reported functional cases passed, including progress, Cancel, batch/errors, Unicode and manual uninstall/certificate cleanup. See the [Windows 10 record](../tests/VALIDATION-2026-10-12-DEVICE-WIN10.md) and [Windows 11 record](../tests/VALIDATION-2026-10-12-DEVICE-WIN11.md) for screenshot versus reported evidence and untested cases. DPI/keyboard, precise timer measurements and certain cancellation boundaries remain unconfirmed. Win11 menu removal after uninstall was not separately confirmed. No production-support claim is expanded. The original ZIP is preserved unchanged; its bundled records predate these device runs.
+
 The maintainer confirms the application is released on Microsoft Store. The source Store manifest is version 1.0.1.0; this does not independently establish the currently served binary or certification status.
+
+The [review handoff](WIN10_PROGRESS_REVIEW.md) covers 22 files. The cleanup error masking cancellation was reproduced with real locked/read-only PNG/JPG outputs and fixed with best-effort handling. The [cleanup follow-up record](../tests/VALIDATION-2026-10-12-CLEANUP-FIX.md) records 17/17 regression cases, 12 hardening sections and the new MSIX hash, now followed by passed guided smoke runs on both devices. The reproduced long-path limitation remains.
 
 ## Released, experimental and unverified
 
@@ -10,8 +24,8 @@ The maintainer confirms the application is released on Microsoft Store. The sour
 |---|---|---|
 | Windows 11 x64 Explorer PDF-to-PNG/JPG, Windows-native renderer, 300 DPI, output naming and source preservation | Released baseline | Maintainer release confirmation; corresponding behavior exists on `main`. Local CLI checks are recorded in `tests/VALIDATION-2026-10-12-CORE.md`; they are not a Store-binary audit. |
 | Windows 10 22H2 support | Experimental, not released | PR #9 changes only dev MSIX MinVersion; target-framework/API declarations do not prove runtime/install compatibility. |
-| Progress UI and Cancel | Experimental, not released | PR #10 targets PR #9's branch. UI and cancellation code are absent from `main` and this documentation branch. |
-| Windows 10 install/Explorer behavior, UI/Cancel on both OS versions | Not established by reviewed evidence | Packaging CI passes; no device-test record found in the inspected PR discussions. Tests may exist elsewhere and need to be supplied before treating these gates as passed. |
+| Progress UI and Cancel | Experimental, not released | PR #10 targets PR #9's branch. UI and cancellation code are absent from production `main`; the local validation branch includes them for testing. |
+| Windows 10 install/Explorer behavior, UI/Cancel on both OS versions | Development device cases passed, not released | Maintainer reports and screenshots recorded for builds 19045.7725 and 26300.9457. Scope and remaining cases are in the two device records; this does not certify all systems or the Store binary. |
 | Currently delivered Store version and SignPath approval/signature state | Not independently verified | Source version is not proof of the live Store binary; beta documents record SignPath pending. |
 
 ## Documentation branch scope
@@ -32,8 +46,8 @@ All three build workflows succeeded for both PR heads. Dev runs: [PR #9](https:/
 
 ## Remaining gates
 
-1. Validate PR #9's dev package on Windows 10 22H2 x64 (19045.x), including classic Explorer commands, conversion and uninstall/certificate cleanup.
-2. Validate PR #10 on Windows 10 and Windows 11: fast-file delay, batch counters, output equivalence, errors, Cancel during render/encode/finalization, window close/Alt+F4, keyboard and DPI scaling.
+1. Review the recorded Windows 10/11 device evidence and complete unconfirmed acceptance items. Tested artifact includes the local cleanup fix beyond the original PR heads.
+2. Complete precise fast-file delay/auto-close timing, keyboard/DPI, slow single-page and finalization-race checks. Reported functional progress/Cancel/batch/error cases passed on both tested builds.
 3. Record exact artifacts and results with `tests/VALIDATION-RECORD-TEMPLATE.md`.
 4. After dependency approval, review PR #10's base/diff again. Retarget/rebase/merge needs authorization.
 5. Prepare a separate approved production update. Do not submit experimental PR artifacts or advertise Windows 10 support before validation.

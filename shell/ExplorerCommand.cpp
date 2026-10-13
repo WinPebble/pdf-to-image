@@ -152,7 +152,7 @@ namespace
         // is sufficient for the file-system paths received from Explorer.
         std::wstring commandLine =
             L"\"" + exePath + L"\" " +
-            (mode == CommandMode::Png ? L"--png" : L"--jpg");
+            (mode == CommandMode::Png ? L"--png --progress-ui" : L"--jpg --progress-ui");
 
         for (const auto& path : paths)
         {

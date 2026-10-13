@@ -17,73 +17,88 @@ internal sealed class PdfConverter
         _progress = progress;
     }
 
-    public async Task ConvertAsync(string inputPath, OutputFormat format)
+    public async Task ConvertAsync(
+        string inputPath,
+        OutputFormat format,
+        CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         string pdfPath = ValidateInputPath(inputPath);
 
         StorageFile inputFile = await StorageFile.GetFileFromPathAsync(pdfPath);
+        cancellationToken.ThrowIfCancellationRequested();
         PdfDocument document = await PdfDocument.LoadFromFileAsync(inputFile);
+        cancellationToken.ThrowIfCancellationRequested();
 
         int pageCount = checked((int)document.PageCount);
-
         if (pageCount < 1)
         {
             throw new InvalidDataException("The PDF contains no pages.");
         }
 
         _progress.FileStarted(pdfPath, pageCount, format);
-
         using OutputPlan plan = OutputPlan.Create(pdfPath, pageCount, format);
+        bool singlePageOutputCreated = false;
 
-        for (int index = 0; index < pageCount; index++)
+        try
         {
-            using PdfPage page = document.GetPage((uint)index);
-
-            (uint width, uint height) = GetOutputPixelSize(page);
-
-            using var renderStream = new InMemoryRandomAccessStream();
-
-            var white = new Windows.UI.Color
+            for (int index = 0; index < pageCount; index++)
             {
-                A = 255,
-                R = 255,
-                G = 255,
-                B = 255
-            };
+                cancellationToken.ThrowIfCancellationRequested();
+                _progress.PageStarted(index + 1, pageCount);
 
-            var renderOptions = new PdfPageRenderOptions
-            {
-                DestinationWidth = width,
-                DestinationHeight = height,
-                BackgroundColor = white,
+                using PdfPage page = document.GetPage((uint)index);
+                (uint width, uint height) = GetOutputPixelSize(page);
+                using var renderStream = new InMemoryRandomAccessStream();
 
-                // Always render to a lossless in-memory PNG first.
-                // The final encoder controls PNG/JPG metadata and JPEG quality.
-                BitmapEncoderId = BitmapEncoder.PngEncoderId
-            };
+                var white = new Windows.UI.Color { A = 255, R = 255, G = 255, B = 255 };
+                var renderOptions = new PdfPageRenderOptions
+                {
+                    DestinationWidth = width,
+                    DestinationHeight = height,
+                    BackgroundColor = white,
+                    // Preserve the current lossless intermediate rendering path.
+                    BitmapEncoderId = BitmapEncoder.PngEncoderId
+                };
 
-            await page.RenderToStreamAsync(renderStream, renderOptions);
+                // This Windows API does not take our CancellationToken. Cancel is
+                // cooperative at page boundaries and between rendering/encoding.
+                await page.RenderToStreamAsync(renderStream, renderOptions);
+                cancellationToken.ThrowIfCancellationRequested();
 
-            string workingPath = plan.WorkingPaths[index];
+                string workingPath = plan.WorkingPaths[index];
+                await ImageEncoder.EncodeRenderedPngAsync(renderStream, workingPath, format);
+                singlePageOutputCreated = !plan.IsMultiPage;
 
-            await ImageEncoder.EncodeRenderedPngAsync(
-                renderStream,
-                workingPath,
-                format
-            );
+                cancellationToken.ThrowIfCancellationRequested();
 
-            _progress.PageCompleted(
-                index + 1,
-                pageCount,
-                width,
-                height,
-                plan.FinalPaths[index]
-            );
+                _progress.PageCompleted(
+                    index + 1, pageCount, width, height, plan.FinalPaths[index]);
+            }
+
+            // Do not publish a partly-rendered multi-page directory on cancel.
+            cancellationToken.ThrowIfCancellationRequested();
+            plan.Commit();
         }
-
-        // For multi-page PDFs this is the only point where the final output folder appears.
-        // If any page fails before here, Dispose() removes the hidden staging directory.
-        plan.Commit();
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // Cover every cancellation boundary before Commit, including a
+            // request arriving during PageCompleted after the final encode.
+            // Only delete an image successfully created by this invocation.
+            if (singlePageOutputCreated)
+            {
+                try
+                {
+                    File.Delete(plan.WorkingPaths[0]);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    // Best effort: a locked/read-only output may remain, but
+                    // cleanup must not replace the original cancellation.
+                }
+            }
+            throw;
+        }
 
         _progress.FileCompleted(pdfPath);
     }
@@ -91,37 +106,22 @@ internal sealed class PdfConverter
     private static string ValidateInputPath(string inputPath)
     {
         string fullPath = Path.GetFullPath(inputPath);
-
         if (!File.Exists(fullPath))
         {
             throw new FileNotFoundException("PDF file not found.", fullPath);
         }
-
-        if (!string.Equals(
-                Path.GetExtension(fullPath),
-                ".pdf",
-                StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(Path.GetExtension(fullPath), ".pdf", StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidDataException("Input file must have the .pdf extension.");
         }
-
         return fullPath;
     }
 
     private static (uint Width, uint Height) GetOutputPixelSize(PdfPage page)
     {
         double scale = OutputDpi / WindowsDipDpi;
-
-        uint width = checked((uint)Math.Max(
-            1,
-            Math.Round(page.Size.Width * scale)
-        ));
-
-        uint height = checked((uint)Math.Max(
-            1,
-            Math.Round(page.Size.Height * scale)
-        ));
-
+        uint width = checked((uint)Math.Max(1, Math.Round(page.Size.Width * scale)));
+        uint height = checked((uint)Math.Max(1, Math.Round(page.Size.Height * scale)));
         return (width, height);
     }
 }

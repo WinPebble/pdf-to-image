@@ -12,7 +12,7 @@
 - Preserve source PDFs, offline operation, Unicode paths and batch conversion. Do not introduce telemetry, services or resident processes without a product request.
 - Keep Windows.Data.Pdf, white background, 300 DPI dimensions/metadata and JPEG quality 1.0. Do not change the renderer or add a PDF runtime incidentally.
 - Preserve output names, collision handling and staged multi-page output. Cleanup is best effort; never delete pre-existing user output.
-- Released-baseline CLI codes: 0 success, 1 conversion failure, 2 invalid arguments. This branch does not implement Progress UI, cancellation or exit code 3.
+- Released-baseline CLI codes: 0 success, 1 conversion failure, 2 invalid arguments. The production baseline on main does not implement Progress UI, cancellation or exit code 3; experimental validation branches may include them.
 
 ## Experimental feature work
 
