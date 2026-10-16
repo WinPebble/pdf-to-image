@@ -8,6 +8,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="../../branding/WinPebble.ico" LogicalName="WinPebble.BrandIcon" />
     <Compile Include="../../src/WinPebble.PDFToImage/Conversion/*.cs" Link="Conversion/%(Filename)%(Extension)" />
     <Compile Include="../../src/WinPebble.PDFToImage/OutputFormat.cs" Link="OutputFormat.cs" />
     <Compile Include="../../src/WinPebble.PDFToImage/UI/ProgressWindow.cs" Link="UI/ProgressWindow.cs" />

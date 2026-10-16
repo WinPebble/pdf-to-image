@@ -4,6 +4,7 @@
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <SupportedOSPlatformVersion>10.0.10240.0</SupportedOSPlatformVersion>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>../../branding/WinPebble.ico</ApplicationIcon>
 
     <AssemblyName>WinPebble.PDFToImage</AssemblyName>
     <RootNamespace>WinPebble.PDFToImage</RootNamespace>
@@ -25,4 +26,7 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../branding/WinPebble.ico" LogicalName="WinPebble.BrandIcon" />
+  </ItemGroup>
 </Project>

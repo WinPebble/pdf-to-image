@@ -34,6 +34,18 @@ The EXE is `artifacts/standalone/WinPebble.PDFToImage.exe`: self-contained, sing
 
 The suite copies fixtures from `tests/`, replaces `artifacts/hardening-test/`, and checks dimensions/DPI, source hashes, collisions, Unicode, batch conversion, invalid PDFs and cleanup. It performs real conversion without installing packages or changing certificate trust. Run without other conversions active: it checks for leftover processes by name.
 
+After compiling the native DLL (for example with the Store build), run:
+
+```powershell
+.\scripts\Test-ShellCommands.ps1
+```
+
+This loads a copy of the DLL in an isolated directory with Unicode/spaces, checks
+both PNG/JPG icon locations and menu labels, rejects invalid selections, and records
+actual child argv for single/batch PDF selections. Its child executable is a test
+recorder, not the converter. It does not register COM or validate installed Explorer
+display. Fixtures are retained under ignored `artifacts/shell-command-checks/`.
+
 ## Full MSIX development package
 
 ```powershell
@@ -51,11 +63,11 @@ On an authorized test PC, use elevated PowerShell for `Install-MSIX-Dev.ps1` and
 .\Build-MSIX-Store.ps1
 ```
 
-Output: `artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.2.0.msix`, `SHA256SUMS-STORE.txt` and a manifest copy. This validates official identity, compiles the core/native DLL and checks package contents. It does not create a dev certificate or install the package.
+Output: `artifacts/msix-store/out/WinPebble-PDF-to-Image-0.9.0-beta.1-Store-v1.0.3.0.msix`, `SHA256SUMS-STORE.txt` and a manifest copy. This validates official identity, compiles the core/native DLL and checks package contents. It does not create a dev certificate or install the package.
 
 The artifact is intentionally unsigned for Store submission. Do not distribute it directly or submit a PR artifact without release approval. See [Store identity](store-msix/STORE_IDENTITY.md) and [submission](store-msix/STORE_SUBMISSION.md).
 
-Package 1.0.2.0 is a release candidate, not a published update. Its proposed Windows 10 minimum is 10.0.19041.0; see [candidate scope and gates](store-msix/RELEASE_CANDIDATE.md).
+Package 1.0.2.0 was published on 2026-10-15. Package 1.0.3.0 prepares the shared WinPebble logo update; its Windows 10 minimum remains 10.0.19041.0. See [branding scope](branding/SHARED_BRAND_ICON.md) and the historical [1.0.2.0 candidate gates](store-msix/RELEASE_CANDIDATE.md).
 
 ## Optional NSIS / sparse-package beta
 
@@ -80,4 +92,4 @@ All run for pull requests and manual dispatch. Push triggers include `main`; see
 
 Before claiming compatibility, run core checks and applicable Explorer/UI/install/uninstall plans on the target OS. See [development status](docs/DEVELOPMENT_STATUS.md) for the dependent Windows 10/progress drafts. Record actual results; packaging success alone is insufficient.
 
-For approved version changes, review C# metadata, native RC, NSIS metadata, manifests, script assertions/output names and workflow artifact names together. Store package version (currently 1.0.2.0), ProductVersion (0.9.0-beta.1) and FileVersion (0.9.0.1) are distinct. See [code signing policy](CODE_SIGNING_POLICY.md).
+For approved version changes, review C# metadata, native RC, NSIS metadata, manifests, script assertions/output names and workflow artifact names together. Store candidate package version (currently 1.0.3.0), ProductVersion (0.9.0-beta.1) and FileVersion (0.9.0.1) are distinct. See [code signing policy](CODE_SIGNING_POLICY.md).

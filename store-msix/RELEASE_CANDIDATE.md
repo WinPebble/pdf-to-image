@@ -1,5 +1,9 @@
 # Store 1.0.2.0 release candidate
 
+Historical preparation snapshot. Partner Center subsequently confirmed Submission 3 /
+1.0.2.0 published on 2026-10-15. The next candidate is the [1.0.3.0 shared logo
+update](../branding/SHARED_BRAND_ICON.md); statements below describe the earlier preparation stage.
+
 Prepared 2026-10-13. Status: PREPARATION ONLY, not uploaded, certified or published. Main baseline: `cf9f7ad0180c26cc987f4d22251979d1f717e6d5` (PR #12). Documentation PR #13 is independent and is not merged by this task.
 
 ## Approved preparation scope

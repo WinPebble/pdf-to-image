@@ -1,6 +1,13 @@
 # Development status
 
-Current status: 2026-10-13. Recheck GitHub before using these refs.
+Current status: 2026-10-16. Recheck GitHub before using these refs.
+
+## Store publication and shared logo candidate
+
+- Partner Center confirmed Submission 3 / package 1.0.2.0 passed certification and was published on 2026-10-15. Windows 10 build 19041+ x64 and Progress UI/Cancel are included in that approved Store update.
+- Actual development device evidence covers Windows 10 22H2 build 19045.7725 and Windows 11 build 26300.9457. Publication does not establish a PASS for older admitted Windows 10 builds or independently verify the Store-delivered install/upgrade path.
+- Main / origin/main was checked on 2026-10-16 at `8c32618ffef8b002a3a21a9af3236110375b0931`; no open PRs were returned. Branch `codex/shared-winpebble-branding` preserves uncommitted shared-logo work and prepares Store candidate 1.0.3.0. It has not been submitted or published.
+- See [branding scope and validation](../branding/SHARED_BRAND_ICON.md). The sections below are historical snapshots; their unreleased-feature statements describe the earlier review stage.
 
 ## After PR #12 merge
 
