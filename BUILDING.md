@@ -34,6 +34,18 @@ The EXE is `artifacts/standalone/WinPebble.PDFToImage.exe`: self-contained, sing
 
 The suite copies fixtures from `tests/`, replaces `artifacts/hardening-test/`, and checks dimensions/DPI, source hashes, collisions, Unicode, batch conversion, invalid PDFs and cleanup. It performs real conversion without installing packages or changing certificate trust. Run without other conversions active: it checks for leftover processes by name.
 
+After compiling the native DLL (for example with the Store build), run:
+
+```powershell
+.\scripts\Test-ShellCommands.ps1
+```
+
+This loads a copy of the DLL in an isolated directory with Unicode/spaces, checks
+both PNG/JPG icon locations and menu labels, rejects invalid selections, and records
+actual child argv for single/batch PDF selections. Its child executable is a test
+recorder, not the converter. It does not register COM or validate installed Explorer
+display. Fixtures are retained under ignored `artifacts/shell-command-checks/`.
+
 ## Full MSIX development package
 
 ```powershell

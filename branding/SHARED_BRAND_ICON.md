@@ -7,14 +7,17 @@ The maintainer supplied the source and ready-sized assets from their WinPebble b
 
 - `WinPebble-Pebble-Mark-512.png` is the supplied 512 x 512 source mark.
 - `package/Assets/Square44x44Logo.png`, `Square150x150Logo.png` and `StoreLogo.png`
-  are exact copies of the supplied 44 x 44, 150 x 150 and 50 x 50 assets.
+  are exact copies of PDF Page Duplicator's 44 x 44, 150 x 150 and 50 x 50 assets,
+  derived from the same approved 512 px mark. The initial supplied resized PNGs
+  had more transparent padding and were superseded after device review.
 - Full Store MSIX, full development MSIX and sparse packaging share these asset paths.
 - Product names, package identities, conversion behavior and OS requirements are unchanged.
-- `WinPebble.ico` packages the supplied 32, 44 and 150 pixel PNG images unchanged
-  as icon frames, retaining their color and transparency without resizing. The executable
+- `WinPebble.ico` is byte-identical to PDF Page Duplicator's icon, with PNG frames
+  at 16/24/32/48/64/128/256 px. The executable
   embeds it as its application icon and the Progress window loads the same resource.
-- The legacy NSIS installer/uninstaller ICO uses identical bytes. The shell verbs
-  still do not supply a custom icon; their behavior is unchanged.
+- The legacy NSIS installer/uninstaller ICO uses identical bytes. Both shell verbs
+  return the adjacent EXE's first icon (`WinPebble.PDFToImage.exe,0`); labels,
+  selection validation and conversion launch arguments are unchanged.
 
 The existing PDF-specific source image and its dated update notes remain as historical material.
 Before Store submission, choose and approve a new package version, synchronize packaging
@@ -25,6 +28,8 @@ This preparation does not publish an update.
 
 Final 1.0.3.0 build results and hashes are recorded in
 [the validation record](../tests/VALIDATION-2026-10-16-SHARED-BRANDING.md).
+The subsequent device-review adjustments (matching Duplicator sizing and menu icons)
+have a separate [follow-up record](../tests/VALIDATION-2026-10-16-MENU-ICON.md).
 
 ## Initial local validation, 2026-10-16
 

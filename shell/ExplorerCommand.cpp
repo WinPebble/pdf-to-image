@@ -280,7 +280,22 @@ namespace
             }
 
             *icon = nullptr;
-            return E_NOTIMPL;
+            try
+            {
+                const std::wstring directory = ModuleDirectory();
+                if (directory.empty())
+                {
+                    return HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND);
+                }
+
+                const std::wstring location =
+                    directory + L"\\WinPebble.PDFToImage.exe,0";
+                return SHStrDupW(location.c_str(), icon);
+            }
+            catch (const std::bad_alloc&)
+            {
+                return E_OUTOFMEMORY;
+            }
         }
 
         IFACEMETHODIMP GetToolTip(

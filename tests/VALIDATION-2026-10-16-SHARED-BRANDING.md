@@ -1,5 +1,9 @@
 # Shared WinPebble branding validation
 
+This records the initial PR #15 candidate. Device review subsequently requested
+Duplicator-aligned sizing and menu icons; see [the follow-up record](VALIDATION-2026-10-16-MENU-ICON.md)
+for the new uncommitted artifacts. Hashes below remain specific to the initial build.
+
 ## Provenance
 
 - Date: 2026-10-16, Asia/Bangkok. Automated checks executed by Codex locally.
