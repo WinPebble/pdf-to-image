@@ -24,6 +24,14 @@ internal sealed class ProgressWindow : Form
     public ProgressWindow()
     {
         Text = "WinPebble PDF to Image";
+        using (var iconStream = typeof(ProgressWindow).Assembly.GetManifestResourceStream("WinPebble.BrandIcon"))
+        {
+            if (iconStream is not null)
+            {
+                using var brandIcon = new Icon(iconStream);
+                Icon = (Icon)brandIcon.Clone();
+            }
+        }
         FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.CenterScreen;
         MaximizeBox = false;
